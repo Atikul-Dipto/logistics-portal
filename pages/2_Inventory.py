@@ -3,7 +3,7 @@ import streamlit as st
 
 from utils.animated_metric import animated_kpi_row
 from utils.data_loader import compact_parts, load_inventory
-from utils.theme import apply_theme
+from utils.theme import apply_theme, page_title
 
 st.set_page_config(page_title="Logistics Portal · Inventory", page_icon="🏬", layout="wide")
 apply_theme()
@@ -11,15 +11,14 @@ apply_theme()
 PLOTLY_TEMPLATE = "plotly_dark"
 ACCENT = "#5b8def"
 
-st.title("🏬 Inventory")
-st.caption("Stock levels by warehouse and SKU, with low-stock alerts.")
+page_title("🏬", "Inventory", "Stock levels by warehouse and SKU, with low-stock alerts.")
 
 df = load_inventory()
 
 st.sidebar.header("Filters")
-warehouse = st.sidebar.multiselect("Warehouse", sorted(df["warehouse"].unique()))
-category = st.sidebar.multiselect("Category", sorted(df["category"].unique()))
-low_stock_only = st.sidebar.checkbox("Low stock only")
+warehouse = st.sidebar.multiselect("🏭 Warehouse", sorted(df["warehouse"].unique()))
+category = st.sidebar.multiselect("🏷️ Category", sorted(df["category"].unique()))
+low_stock_only = st.sidebar.checkbox("⚠️ Low stock only")
 
 filtered = df.copy()
 if warehouse:

@@ -2,7 +2,7 @@ import plotly.express as px
 import streamlit as st
 
 from utils.data_loader import load_shipments
-from utils.theme import apply_theme
+from utils.theme import apply_theme, page_title
 
 st.set_page_config(page_title="Logistics Portal · Analytics", page_icon="📈", layout="wide")
 apply_theme()
@@ -10,8 +10,7 @@ apply_theme()
 PLOTLY_TEMPLATE = "plotly_dark"
 ACCENT = "#5b8def"
 
-st.title("📈 Analytics")
-st.caption("Carrier performance, delay causes, and shipping cost trends.")
+page_title("📈", "Analytics", "Carrier performance, delay causes, and shipping cost trends.")
 
 df = load_shipments()
 delivered = df[df["is_delivered"]]

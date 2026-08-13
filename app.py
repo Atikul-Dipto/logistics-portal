@@ -3,7 +3,7 @@ import streamlit as st
 
 from utils.animated_metric import animated_kpi_row
 from utils.data_loader import compact_parts, load_shipments
-from utils.theme import apply_theme
+from utils.theme import apply_theme, page_title
 
 st.set_page_config(page_title="Logistics Portal · Overview", page_icon="📦", layout="wide")
 apply_theme()
@@ -11,8 +11,7 @@ apply_theme()
 PLOTLY_TEMPLATE = "plotly_dark"
 ACCENT = "#5b8def"
 
-st.title("📦 Logistics Operations Portal")
-st.caption("Shipment, inventory, and delivery performance across a multi-warehouse network.")
+page_title("📦", "Logistics Operations Portal", "Shipment, inventory, and delivery performance across a multi-warehouse network.")
 
 df = load_shipments()
 
@@ -20,10 +19,10 @@ df = load_shipments()
 st.sidebar.header("Filters")
 min_date, max_date = df["order_date"].min().date(), df["order_date"].max().date()
 date_range = st.sidebar.date_input(
-    "Order date range", value=(min_date, max_date), min_value=min_date, max_value=max_date
+    "📅 Order date range", value=(min_date, max_date), min_value=min_date, max_value=max_date
 )
-warehouses = st.sidebar.multiselect("Warehouse", sorted(df["warehouse"].unique()))
-carriers = st.sidebar.multiselect("Carrier", sorted(df["carrier"].unique()))
+warehouses = st.sidebar.multiselect("🏭 Warehouse", sorted(df["warehouse"].unique()))
+carriers = st.sidebar.multiselect("🚚 Carrier", sorted(df["carrier"].unique()))
 
 filtered = df.copy()
 if isinstance(date_range, tuple) and len(date_range) == 2:

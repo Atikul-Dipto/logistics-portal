@@ -1,22 +1,21 @@
 import streamlit as st
 
 from utils.data_loader import load_shipments
-from utils.theme import apply_theme
+from utils.theme import apply_theme, page_title
 
 st.set_page_config(page_title="Logistics Portal · Shipments", page_icon="🚚", layout="wide")
 apply_theme()
 
-st.title("🚚 Shipments")
-st.caption("Search, filter, and inspect individual shipments across the network.")
+page_title("🚚", "Shipments", "Search, filter, and inspect individual shipments across the network.")
 
 df = load_shipments()
 
 st.sidebar.header("Filters")
-status = st.sidebar.multiselect("Status", sorted(df["status"].unique()))
-warehouse = st.sidebar.multiselect("Warehouse", sorted(df["warehouse"].unique()))
-carrier = st.sidebar.multiselect("Carrier", sorted(df["carrier"].unique()))
-region = st.sidebar.multiselect("Destination region", sorted(df["destination_region"].unique()))
-search = st.sidebar.text_input("Search shipment ID or SKU")
+status = st.sidebar.multiselect("🏷️ Status", sorted(df["status"].unique()))
+warehouse = st.sidebar.multiselect("🏭 Warehouse", sorted(df["warehouse"].unique()))
+carrier = st.sidebar.multiselect("🚚 Carrier", sorted(df["carrier"].unique()))
+region = st.sidebar.multiselect("📍 Destination region", sorted(df["destination_region"].unique()))
+search = st.sidebar.text_input("🔍 Search shipment ID or SKU")
 
 filtered = df.copy()
 if status:

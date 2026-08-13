@@ -17,7 +17,7 @@ _PAGE_TEMPLATE = """
 </div>
 <style>
   * {{ box-sizing: border-box; }}
-  body {{ margin: 0; }}
+  html, body {{ margin: 0; background: transparent; }}
   .akpi-row {{
     display: flex;
     gap: 14px;
@@ -40,11 +40,12 @@ _PAGE_TEMPLATE = """
     border-color: rgba(91, 141, 239, 0.55);
   }}
   .akpi-label {{
-    font-size: 12.5px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     color: #9aa3af;
-    margin-bottom: 6px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
+    margin-bottom: 8px;
   }}
   .akpi-value {{
     font-family: 'Sora', 'Plus Jakarta Sans', sans-serif;
@@ -55,6 +56,10 @@ _PAGE_TEMPLATE = """
   }}
   @keyframes akpiIn {{
     to {{ opacity: 1; transform: translateY(0); }}
+  }}
+  @media (max-width: 640px) {{
+    .akpi-value {{ font-size: 22px; }}
+    .akpi-card {{ padding: 14px; }}
   }}
 </style>
 <script>
@@ -89,7 +94,11 @@ _PAGE_TEMPLATE = """
 """
 
 
-def animated_kpi_row(items, height=112):
+def animated_kpi_row(items, height=300):
+    """height defaults generously (~3 rows) since this renders in a
+    fixed-height iframe that can't auto-resize when flex-wrap kicks
+    in on narrow viewports — the transparent background means any
+    unused space on wider screens stays invisible."""
     """items: list of {label, value, prefix, suffix, decimals}"""
     cards_html = "".join(
         _CARD_TEMPLATE.format(
