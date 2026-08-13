@@ -1,0 +1,51 @@
+sku,product,category,unit_cost
+SKU1000,Wireless Earbuds,Electronics,3516.71
+SKU1001,Wireless Earbuds (V2),Electronics,2059.12
+SKU1002,Power Bank,Electronics,3884.9
+SKU1003,Power Bank (V2),Electronics,3183.55
+SKU1004,Smartwatch,Electronics,559.67
+SKU1005,Smartwatch (V2),Electronics,4393.96
+SKU1006,Bluetooth Speaker,Electronics,3460.96
+SKU1007,Bluetooth Speaker (V2),Electronics,3569.38
+SKU1008,Phone Case,Electronics,707.29
+SKU1009,Phone Case (V2),Electronics,2109.18
+SKU1010,Cotton T-Shirt,Apparel,1762.97
+SKU1011,Cotton T-Shirt (V2),Apparel,4181.43
+SKU1012,Panjabi,Apparel,2950.81
+SKU1013,Panjabi (V2),Apparel,3729.01
+SKU1014,Sneakers,Apparel,2078.85
+SKU1015,Sneakers (V2),Apparel,1138.49
+SKU1016,Saree,Apparel,2562.44
+SKU1017,Saree (V2),Apparel,427.61
+SKU1018,Denim Jacket,Apparel,3750.2
+SKU1019,Denim Jacket (V2),Apparel,2897.74
+SKU1020,Bedsheet Set,Home & Living,3447.68
+SKU1021,Bedsheet Set (V2),Home & Living,1692.19
+SKU1022,Table Lamp,Home & Living,4372.54
+SKU1023,Table Lamp (V2),Home & Living,4035.08
+SKU1024,Non-stick Pan,Home & Living,3535.97
+SKU1025,Non-stick Pan (V2),Home & Living,996.68
+SKU1026,Storage Box,Home & Living,2180.24
+SKU1027,Storage Box (V2),Home & Living,340.55
+SKU1028,Curtain Set,Home & Living,821.16
+SKU1029,Curtain Set (V2),Home & Living,3121.26
+SKU1030,Face Wash,Beauty,3389.72
+SKU1031,Face Wash (V2),Beauty,4358.67
+SKU1032,Sunscreen SPF50,Beauty,1567.34
+SKU1033,Sunscreen SPF50 (V2),Beauty,1761.5
+SKU1034,Hair Serum,Beauty,2192.57
+SKU1035,Hair Serum (V2),Beauty,974.2
+SKU1036,Lipstick,Beauty,715.16
+SKU1037,Lipstick (V2),Beauty,2219.32
+SKU1038,Perfume,Beauty,1137.06
+SKU1039,Perfume (V2),Beauty,3063.69
+SKU1040,Basmati Rice 5kg,Grocery,2051.61
+SKU1041,Basmati Rice 5kg (V2),Grocery,3772.15
+SKU1042,Mustard Oil 1L,Grocery,3196.15
+SKU1043,Mustard Oil 1L (V2),Grocery,1508.79
+SKU1044,Green Tea Pack,Grocery,3770.33
+SKU1045,Green Tea Pack (V2),Grocery,3650.72
+SKU1046,Spice Combo,Grocery,1835.53
+SKU1047,Spice Combo (V2),Grocery,1404.23
+SKU1048,Honey Jar,Grocery,3118.86
+SKU1049,Honey Jar (V2),Grocery,757.92

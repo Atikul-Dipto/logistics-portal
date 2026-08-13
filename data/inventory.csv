@@ -1,0 +1,251 @@
+warehouse,city,sku,product,category,on_hand,reorder_point,unit_cost,stock_value,low_stock
+Dhaka Hub,Dhaka,SKU1000,Wireless Earbuds,Electronics,235,101,3516.71,826426.85,False
+Dhaka Hub,Dhaka,SKU1001,Wireless Earbuds (V2),Electronics,266,80,2059.12,547725.92,False
+Dhaka Hub,Dhaka,SKU1002,Power Bank,Electronics,478,169,3884.9,1856982.2,False
+Dhaka Hub,Dhaka,SKU1003,Power Bank (V2),Electronics,413,66,3183.55,1314806.15,False
+Dhaka Hub,Dhaka,SKU1004,Smartwatch,Electronics,692,116,559.67,387291.64,False
+Dhaka Hub,Dhaka,SKU1005,Smartwatch (V2),Electronics,408,131,4393.96,1792735.68,False
+Dhaka Hub,Dhaka,SKU1006,Bluetooth Speaker,Electronics,507,62,3460.96,1754706.72,False
+Dhaka Hub,Dhaka,SKU1007,Bluetooth Speaker (V2),Electronics,194,143,3569.38,692459.72,False
+Dhaka Hub,Dhaka,SKU1008,Phone Case,Electronics,310,76,707.29,219259.9,False
+Dhaka Hub,Dhaka,SKU1009,Phone Case (V2),Electronics,734,93,2109.18,1548138.12,False
+Dhaka Hub,Dhaka,SKU1010,Cotton T-Shirt,Apparel,177,199,1762.97,312045.69,True
+Dhaka Hub,Dhaka,SKU1011,Cotton T-Shirt (V2),Apparel,183,138,4181.43,765201.69,False
+Dhaka Hub,Dhaka,SKU1012,Panjabi,Apparel,413,195,2950.81,1218684.53,False
+Dhaka Hub,Dhaka,SKU1013,Panjabi (V2),Apparel,763,128,3729.01,2845234.63,False
+Dhaka Hub,Dhaka,SKU1014,Sneakers,Apparel,35,172,2078.85,72759.75,True
+Dhaka Hub,Dhaka,SKU1015,Sneakers (V2),Apparel,512,65,1138.49,582906.88,False
+Dhaka Hub,Dhaka,SKU1016,Saree,Apparel,112,100,2562.44,286993.28,False
+Dhaka Hub,Dhaka,SKU1017,Saree (V2),Apparel,677,99,427.61,289491.97,False
+Dhaka Hub,Dhaka,SKU1018,Denim Jacket,Apparel,709,69,3750.2,2658891.8,False
+Dhaka Hub,Dhaka,SKU1019,Denim Jacket (V2),Apparel,409,193,2897.74,1185175.66,False
+Dhaka Hub,Dhaka,SKU1020,Bedsheet Set,Home & Living,519,130,3447.68,1789345.92,False
+Dhaka Hub,Dhaka,SKU1021,Bedsheet Set (V2),Home & Living,310,143,1692.19,524578.9,False
+Dhaka Hub,Dhaka,SKU1022,Table Lamp,Home & Living,203,132,4372.54,887625.62,False
+Dhaka Hub,Dhaka,SKU1023,Table Lamp (V2),Home & Living,44,94,4035.08,177543.52,True
+Dhaka Hub,Dhaka,SKU1024,Non-stick Pan,Home & Living,584,189,3535.97,2065006.48,False
+Dhaka Hub,Dhaka,SKU1025,Non-stick Pan (V2),Home & Living,340,153,996.68,338871.2,False
+Dhaka Hub,Dhaka,SKU1026,Storage Box,Home & Living,363,77,2180.24,791427.12,False
+Dhaka Hub,Dhaka,SKU1027,Storage Box (V2),Home & Living,768,124,340.55,261542.4,False
+Dhaka Hub,Dhaka,SKU1028,Curtain Set,Home & Living,90,60,821.16,73904.4,False
+Dhaka Hub,Dhaka,SKU1029,Curtain Set (V2),Home & Living,163,154,3121.26,508765.38,False
+Dhaka Hub,Dhaka,SKU1030,Face Wash,Beauty,263,133,3389.72,891496.36,False
+Dhaka Hub,Dhaka,SKU1031,Face Wash (V2),Beauty,131,186,4358.67,570985.77,True
+Dhaka Hub,Dhaka,SKU1032,Sunscreen SPF50,Beauty,777,192,1567.34,1217823.18,False
+Dhaka Hub,Dhaka,SKU1033,Sunscreen SPF50 (V2),Beauty,498,73,1761.5,877227.0,False
+Dhaka Hub,Dhaka,SKU1034,Hair Serum,Beauty,95,72,2192.57,208294.15,False
+Dhaka Hub,Dhaka,SKU1035,Hair Serum (V2),Beauty,396,185,974.2,385783.2,False
+Dhaka Hub,Dhaka,SKU1036,Lipstick,Beauty,637,131,715.16,455556.92,False
+Dhaka Hub,Dhaka,SKU1037,Lipstick (V2),Beauty,599,125,2219.32,1329372.68,False
+Dhaka Hub,Dhaka,SKU1038,Perfume,Beauty,498,139,1137.06,566255.88,False
+Dhaka Hub,Dhaka,SKU1039,Perfume (V2),Beauty,483,125,3063.69,1479762.27,False
+Dhaka Hub,Dhaka,SKU1040,Basmati Rice 5kg,Grocery,594,145,2051.61,1218656.34,False
+Dhaka Hub,Dhaka,SKU1041,Basmati Rice 5kg (V2),Grocery,217,192,3772.15,818556.55,False
+Dhaka Hub,Dhaka,SKU1042,Mustard Oil 1L,Grocery,394,144,3196.15,1259283.1,False
+Dhaka Hub,Dhaka,SKU1043,Mustard Oil 1L (V2),Grocery,424,104,1508.79,639726.96,False
+Dhaka Hub,Dhaka,SKU1044,Green Tea Pack,Grocery,64,89,3770.33,241301.12,True
+Dhaka Hub,Dhaka,SKU1045,Green Tea Pack (V2),Grocery,765,195,3650.72,2792800.8,False
+Dhaka Hub,Dhaka,SKU1046,Spice Combo,Grocery,129,141,1835.53,236783.37,True
+Dhaka Hub,Dhaka,SKU1047,Spice Combo (V2),Grocery,205,139,1404.23,287867.15,False
+Dhaka Hub,Dhaka,SKU1048,Honey Jar,Grocery,524,64,3118.86,1634282.64,False
+Dhaka Hub,Dhaka,SKU1049,Honey Jar (V2),Grocery,760,188,757.92,576019.2,False
+Chattogram DC,Chattogram,SKU1000,Wireless Earbuds,Electronics,761,125,3516.71,2676216.31,False
+Chattogram DC,Chattogram,SKU1001,Wireless Earbuds (V2),Electronics,574,199,2059.12,1181934.88,False
+Chattogram DC,Chattogram,SKU1002,Power Bank,Electronics,152,83,3884.9,590504.8,False
+Chattogram DC,Chattogram,SKU1003,Power Bank (V2),Electronics,641,105,3183.55,2040655.55,False
+Chattogram DC,Chattogram,SKU1004,Smartwatch,Electronics,145,89,559.67,81152.15,False
+Chattogram DC,Chattogram,SKU1005,Smartwatch (V2),Electronics,550,113,4393.96,2416678.0,False
+Chattogram DC,Chattogram,SKU1006,Bluetooth Speaker,Electronics,245,196,3460.96,847935.2,False
+Chattogram DC,Chattogram,SKU1007,Bluetooth Speaker (V2),Electronics,782,118,3569.38,2791255.16,False
+Chattogram DC,Chattogram,SKU1008,Phone Case,Electronics,184,175,707.29,130141.36,False
+Chattogram DC,Chattogram,SKU1009,Phone Case (V2),Electronics,600,165,2109.18,1265508.0,False
+Chattogram DC,Chattogram,SKU1010,Cotton T-Shirt,Apparel,172,101,1762.97,303230.84,False
+Chattogram DC,Chattogram,SKU1011,Cotton T-Shirt (V2),Apparel,64,141,4181.43,267611.52,True
+Chattogram DC,Chattogram,SKU1012,Panjabi,Apparel,36,179,2950.81,106229.16,True
+Chattogram DC,Chattogram,SKU1013,Panjabi (V2),Apparel,252,145,3729.01,939710.52,False
+Chattogram DC,Chattogram,SKU1014,Sneakers,Apparel,130,97,2078.85,270250.5,False
+Chattogram DC,Chattogram,SKU1015,Sneakers (V2),Apparel,216,180,1138.49,245913.84,False
+Chattogram DC,Chattogram,SKU1016,Saree,Apparel,783,137,2562.44,2006390.52,False
+Chattogram DC,Chattogram,SKU1017,Saree (V2),Apparel,83,197,427.61,35491.63,True
+Chattogram DC,Chattogram,SKU1018,Denim Jacket,Apparel,231,151,3750.2,866296.2,False
+Chattogram DC,Chattogram,SKU1019,Denim Jacket (V2),Apparel,182,122,2897.74,527388.68,False
+Chattogram DC,Chattogram,SKU1020,Bedsheet Set,Home & Living,29,121,3447.68,99982.72,True
+Chattogram DC,Chattogram,SKU1021,Bedsheet Set (V2),Home & Living,539,183,1692.19,912090.41,False
+Chattogram DC,Chattogram,SKU1022,Table Lamp,Home & Living,760,197,4372.54,3323130.4,False
+Chattogram DC,Chattogram,SKU1023,Table Lamp (V2),Home & Living,774,117,4035.08,3123151.92,False
+Chattogram DC,Chattogram,SKU1024,Non-stick Pan,Home & Living,209,82,3535.97,739017.73,False
+Chattogram DC,Chattogram,SKU1025,Non-stick Pan (V2),Home & Living,131,65,996.68,130565.08,False
+Chattogram DC,Chattogram,SKU1026,Storage Box,Home & Living,567,105,2180.24,1236196.08,False
+Chattogram DC,Chattogram,SKU1027,Storage Box (V2),Home & Living,406,107,340.55,138263.3,False
+Chattogram DC,Chattogram,SKU1028,Curtain Set,Home & Living,431,119,821.16,353919.96,False
+Chattogram DC,Chattogram,SKU1029,Curtain Set (V2),Home & Living,468,80,3121.26,1460749.68,False
+Chattogram DC,Chattogram,SKU1030,Face Wash,Beauty,723,128,3389.72,2450767.56,False
+Chattogram DC,Chattogram,SKU1031,Face Wash (V2),Beauty,557,192,4358.67,2427779.19,False
+Chattogram DC,Chattogram,SKU1032,Sunscreen SPF50,Beauty,71,92,1567.34,111281.14,True
+Chattogram DC,Chattogram,SKU1033,Sunscreen SPF50 (V2),Beauty,433,155,1761.5,762729.5,False
+Chattogram DC,Chattogram,SKU1034,Hair Serum,Beauty,379,65,2192.57,830984.03,False
+Chattogram DC,Chattogram,SKU1035,Hair Serum (V2),Beauty,553,150,974.2,538732.6,False
+Chattogram DC,Chattogram,SKU1036,Lipstick,Beauty,12,191,715.16,8581.92,True
+Chattogram DC,Chattogram,SKU1037,Lipstick (V2),Beauty,711,99,2219.32,1577936.52,False
+Chattogram DC,Chattogram,SKU1038,Perfume,Beauty,488,174,1137.06,554885.28,False
+Chattogram DC,Chattogram,SKU1039,Perfume (V2),Beauty,358,71,3063.69,1096801.02,False
+Chattogram DC,Chattogram,SKU1040,Basmati Rice 5kg,Grocery,323,110,2051.61,662670.03,False
+Chattogram DC,Chattogram,SKU1041,Basmati Rice 5kg (V2),Grocery,650,60,3772.15,2451897.5,False
+Chattogram DC,Chattogram,SKU1042,Mustard Oil 1L,Grocery,759,109,3196.15,2425877.85,False
+Chattogram DC,Chattogram,SKU1043,Mustard Oil 1L (V2),Grocery,308,103,1508.79,464707.32,False
+Chattogram DC,Chattogram,SKU1044,Green Tea Pack,Grocery,18,156,3770.33,67865.94,True
+Chattogram DC,Chattogram,SKU1045,Green Tea Pack (V2),Grocery,593,101,3650.72,2164876.96,False
+Chattogram DC,Chattogram,SKU1046,Spice Combo,Grocery,99,175,1835.53,181717.47,True
+Chattogram DC,Chattogram,SKU1047,Spice Combo (V2),Grocery,553,100,1404.23,776539.19,False
+Chattogram DC,Chattogram,SKU1048,Honey Jar,Grocery,535,91,3118.86,1668590.1,False
+Chattogram DC,Chattogram,SKU1049,Honey Jar (V2),Grocery,507,129,757.92,384265.44,False
+Sylhet DC,Sylhet,SKU1000,Wireless Earbuds,Electronics,152,151,3516.71,534539.92,False
+Sylhet DC,Sylhet,SKU1001,Wireless Earbuds (V2),Electronics,145,184,2059.12,298572.4,True
+Sylhet DC,Sylhet,SKU1002,Power Bank,Electronics,81,173,3884.9,314676.9,True
+Sylhet DC,Sylhet,SKU1003,Power Bank (V2),Electronics,229,133,3183.55,729032.95,False
+Sylhet DC,Sylhet,SKU1004,Smartwatch,Electronics,682,196,559.67,381694.94,False
+Sylhet DC,Sylhet,SKU1005,Smartwatch (V2),Electronics,399,101,4393.96,1753190.04,False
+Sylhet DC,Sylhet,SKU1006,Bluetooth Speaker,Electronics,596,199,3460.96,2062732.16,False
+Sylhet DC,Sylhet,SKU1007,Bluetooth Speaker (V2),Electronics,238,113,3569.38,849512.44,False
+Sylhet DC,Sylhet,SKU1008,Phone Case,Electronics,663,96,707.29,468933.27,False
+Sylhet DC,Sylhet,SKU1009,Phone Case (V2),Electronics,451,113,2109.18,951240.18,False
+Sylhet DC,Sylhet,SKU1010,Cotton T-Shirt,Apparel,407,142,1762.97,717528.79,False
+Sylhet DC,Sylhet,SKU1011,Cotton T-Shirt (V2),Apparel,412,126,4181.43,1722749.16,False
+Sylhet DC,Sylhet,SKU1012,Panjabi,Apparel,305,67,2950.81,899997.05,False
+Sylhet DC,Sylhet,SKU1013,Panjabi (V2),Apparel,625,109,3729.01,2330631.25,False
+Sylhet DC,Sylhet,SKU1014,Sneakers,Apparel,58,128,2078.85,120573.3,True
+Sylhet DC,Sylhet,SKU1015,Sneakers (V2),Apparel,657,152,1138.49,747987.93,False
+Sylhet DC,Sylhet,SKU1016,Saree,Apparel,476,193,2562.44,1219721.44,False
+Sylhet DC,Sylhet,SKU1017,Saree (V2),Apparel,537,193,427.61,229626.57,False
+Sylhet DC,Sylhet,SKU1018,Denim Jacket,Apparel,715,131,3750.2,2681393.0,False
+Sylhet DC,Sylhet,SKU1019,Denim Jacket (V2),Apparel,56,139,2897.74,162273.44,True
+Sylhet DC,Sylhet,SKU1020,Bedsheet Set,Home & Living,757,157,3447.68,2609893.76,False
+Sylhet DC,Sylhet,SKU1021,Bedsheet Set (V2),Home & Living,177,176,1692.19,299517.63,False
+Sylhet DC,Sylhet,SKU1022,Table Lamp,Home & Living,671,164,4372.54,2933974.34,False
+Sylhet DC,Sylhet,SKU1023,Table Lamp (V2),Home & Living,125,160,4035.08,504385.0,True
+Sylhet DC,Sylhet,SKU1024,Non-stick Pan,Home & Living,692,122,3535.97,2446891.24,False
+Sylhet DC,Sylhet,SKU1025,Non-stick Pan (V2),Home & Living,548,181,996.68,546180.64,False
+Sylhet DC,Sylhet,SKU1026,Storage Box,Home & Living,587,152,2180.24,1279800.88,False
+Sylhet DC,Sylhet,SKU1027,Storage Box (V2),Home & Living,333,82,340.55,113403.15,False
+Sylhet DC,Sylhet,SKU1028,Curtain Set,Home & Living,216,143,821.16,177370.56,False
+Sylhet DC,Sylhet,SKU1029,Curtain Set (V2),Home & Living,589,103,3121.26,1838422.14,False
+Sylhet DC,Sylhet,SKU1030,Face Wash,Beauty,305,88,3389.72,1033864.6,False
+Sylhet DC,Sylhet,SKU1031,Face Wash (V2),Beauty,280,150,4358.67,1220427.6,False
+Sylhet DC,Sylhet,SKU1032,Sunscreen SPF50,Beauty,0,149,1567.34,0.0,True
+Sylhet DC,Sylhet,SKU1033,Sunscreen SPF50 (V2),Beauty,50,193,1761.5,88075.0,True
+Sylhet DC,Sylhet,SKU1034,Hair Serum,Beauty,591,196,2192.57,1295808.87,False
+Sylhet DC,Sylhet,SKU1035,Hair Serum (V2),Beauty,295,117,974.2,287389.0,False
+Sylhet DC,Sylhet,SKU1036,Lipstick,Beauty,384,84,715.16,274621.44,False
+Sylhet DC,Sylhet,SKU1037,Lipstick (V2),Beauty,575,79,2219.32,1276109.0,False
+Sylhet DC,Sylhet,SKU1038,Perfume,Beauty,676,196,1137.06,768652.56,False
+Sylhet DC,Sylhet,SKU1039,Perfume (V2),Beauty,206,115,3063.69,631120.14,False
+Sylhet DC,Sylhet,SKU1040,Basmati Rice 5kg,Grocery,27,107,2051.61,55393.47,True
+Sylhet DC,Sylhet,SKU1041,Basmati Rice 5kg (V2),Grocery,168,146,3772.15,633721.2,False
+Sylhet DC,Sylhet,SKU1042,Mustard Oil 1L,Grocery,629,68,3196.15,2010378.35,False
+Sylhet DC,Sylhet,SKU1043,Mustard Oil 1L (V2),Grocery,137,150,1508.79,206704.23,True
+Sylhet DC,Sylhet,SKU1044,Green Tea Pack,Grocery,366,182,3770.33,1379940.78,False
+Sylhet DC,Sylhet,SKU1045,Green Tea Pack (V2),Grocery,630,161,3650.72,2299953.6,False
+Sylhet DC,Sylhet,SKU1046,Spice Combo,Grocery,777,118,1835.53,1426206.81,False
+Sylhet DC,Sylhet,SKU1047,Spice Combo (V2),Grocery,524,76,1404.23,735816.52,False
+Sylhet DC,Sylhet,SKU1048,Honey Jar,Grocery,77,93,3118.86,240152.22,True
+Sylhet DC,Sylhet,SKU1049,Honey Jar (V2),Grocery,236,97,757.92,178869.12,False
+Khulna DC,Khulna,SKU1000,Wireless Earbuds,Electronics,537,113,3516.71,1888473.27,False
+Khulna DC,Khulna,SKU1001,Wireless Earbuds (V2),Electronics,561,78,2059.12,1155166.32,False
+Khulna DC,Khulna,SKU1002,Power Bank,Electronics,283,140,3884.9,1099426.7,False
+Khulna DC,Khulna,SKU1003,Power Bank (V2),Electronics,794,111,3183.55,2527738.7,False
+Khulna DC,Khulna,SKU1004,Smartwatch,Electronics,454,129,559.67,254090.18,False
+Khulna DC,Khulna,SKU1005,Smartwatch (V2),Electronics,10,99,4393.96,43939.6,True
+Khulna DC,Khulna,SKU1006,Bluetooth Speaker,Electronics,230,123,3460.96,796020.8,False
+Khulna DC,Khulna,SKU1007,Bluetooth Speaker (V2),Electronics,148,159,3569.38,528268.24,True
+Khulna DC,Khulna,SKU1008,Phone Case,Electronics,379,72,707.29,268062.91,False
+Khulna DC,Khulna,SKU1009,Phone Case (V2),Electronics,285,131,2109.18,601116.3,False
+Khulna DC,Khulna,SKU1010,Cotton T-Shirt,Apparel,174,146,1762.97,306756.78,False
+Khulna DC,Khulna,SKU1011,Cotton T-Shirt (V2),Apparel,609,153,4181.43,2546490.87,False
+Khulna DC,Khulna,SKU1012,Panjabi,Apparel,536,189,2950.81,1581634.16,False
+Khulna DC,Khulna,SKU1013,Panjabi (V2),Apparel,419,169,3729.01,1562455.19,False
+Khulna DC,Khulna,SKU1014,Sneakers,Apparel,274,163,2078.85,569604.9,False
+Khulna DC,Khulna,SKU1015,Sneakers (V2),Apparel,465,181,1138.49,529397.85,False
+Khulna DC,Khulna,SKU1016,Saree,Apparel,61,188,2562.44,156308.84,True
+Khulna DC,Khulna,SKU1017,Saree (V2),Apparel,185,177,427.61,79107.85,False
+Khulna DC,Khulna,SKU1018,Denim Jacket,Apparel,303,145,3750.2,1136310.6,False
+Khulna DC,Khulna,SKU1019,Denim Jacket (V2),Apparel,267,178,2897.74,773696.58,False
+Khulna DC,Khulna,SKU1020,Bedsheet Set,Home & Living,580,105,3447.68,1999654.4,False
+Khulna DC,Khulna,SKU1021,Bedsheet Set (V2),Home & Living,106,193,1692.19,179372.14,True
+Khulna DC,Khulna,SKU1022,Table Lamp,Home & Living,779,84,4372.54,3406208.66,False
+Khulna DC,Khulna,SKU1023,Table Lamp (V2),Home & Living,253,92,4035.08,1020875.24,False
+Khulna DC,Khulna,SKU1024,Non-stick Pan,Home & Living,181,82,3535.97,640010.57,False
+Khulna DC,Khulna,SKU1025,Non-stick Pan (V2),Home & Living,583,168,996.68,581064.44,False
+Khulna DC,Khulna,SKU1026,Storage Box,Home & Living,485,120,2180.24,1057416.4,False
+Khulna DC,Khulna,SKU1027,Storage Box (V2),Home & Living,783,163,340.55,266650.65,False
+Khulna DC,Khulna,SKU1028,Curtain Set,Home & Living,47,131,821.16,38594.52,True
+Khulna DC,Khulna,SKU1029,Curtain Set (V2),Home & Living,136,116,3121.26,424491.36,False
+Khulna DC,Khulna,SKU1030,Face Wash,Beauty,315,185,3389.72,1067761.8,False
+Khulna DC,Khulna,SKU1031,Face Wash (V2),Beauty,656,120,4358.67,2859287.52,False
+Khulna DC,Khulna,SKU1032,Sunscreen SPF50,Beauty,616,146,1567.34,965481.44,False
+Khulna DC,Khulna,SKU1033,Sunscreen SPF50 (V2),Beauty,443,180,1761.5,780344.5,False
+Khulna DC,Khulna,SKU1034,Hair Serum,Beauty,498,89,2192.57,1091899.86,False
+Khulna DC,Khulna,SKU1035,Hair Serum (V2),Beauty,316,116,974.2,307847.2,False
+Khulna DC,Khulna,SKU1036,Lipstick,Beauty,675,80,715.16,482733.0,False
+Khulna DC,Khulna,SKU1037,Lipstick (V2),Beauty,381,135,2219.32,845560.92,False
+Khulna DC,Khulna,SKU1038,Perfume,Beauty,762,170,1137.06,866439.72,False
+Khulna DC,Khulna,SKU1039,Perfume (V2),Beauty,208,67,3063.69,637247.52,False
+Khulna DC,Khulna,SKU1040,Basmati Rice 5kg,Grocery,101,68,2051.61,207212.61,False
+Khulna DC,Khulna,SKU1041,Basmati Rice 5kg (V2),Grocery,324,163,3772.15,1222176.6,False
+Khulna DC,Khulna,SKU1042,Mustard Oil 1L,Grocery,525,159,3196.15,1677978.75,False
+Khulna DC,Khulna,SKU1043,Mustard Oil 1L (V2),Grocery,424,116,1508.79,639726.96,False
+Khulna DC,Khulna,SKU1044,Green Tea Pack,Grocery,659,110,3770.33,2484647.47,False
+Khulna DC,Khulna,SKU1045,Green Tea Pack (V2),Grocery,467,99,3650.72,1704886.24,False
+Khulna DC,Khulna,SKU1046,Spice Combo,Grocery,292,68,1835.53,535974.76,False
+Khulna DC,Khulna,SKU1047,Spice Combo (V2),Grocery,486,131,1404.23,682455.78,False
+Khulna DC,Khulna,SKU1048,Honey Jar,Grocery,252,146,3118.86,785952.72,False
+Khulna DC,Khulna,SKU1049,Honey Jar (V2),Grocery,104,181,757.92,78823.68,True
+Rajshahi DC,Rajshahi,SKU1000,Wireless Earbuds,Electronics,26,135,3516.71,91434.46,True
+Rajshahi DC,Rajshahi,SKU1001,Wireless Earbuds (V2),Electronics,213,81,2059.12,438592.56,False
+Rajshahi DC,Rajshahi,SKU1002,Power Bank,Electronics,137,103,3884.9,532231.3,False
+Rajshahi DC,Rajshahi,SKU1003,Power Bank (V2),Electronics,506,169,3183.55,1610876.3,False
+Rajshahi DC,Rajshahi,SKU1004,Smartwatch,Electronics,745,146,559.67,416954.15,False
+Rajshahi DC,Rajshahi,SKU1005,Smartwatch (V2),Electronics,396,167,4393.96,1740008.16,False
+Rajshahi DC,Rajshahi,SKU1006,Bluetooth Speaker,Electronics,649,117,3460.96,2246163.04,False
+Rajshahi DC,Rajshahi,SKU1007,Bluetooth Speaker (V2),Electronics,334,69,3569.38,1192172.92,False
+Rajshahi DC,Rajshahi,SKU1008,Phone Case,Electronics,12,184,707.29,8487.48,True
+Rajshahi DC,Rajshahi,SKU1009,Phone Case (V2),Electronics,693,108,2109.18,1461661.74,False
+Rajshahi DC,Rajshahi,SKU1010,Cotton T-Shirt,Apparel,754,71,1762.97,1329279.38,False
+Rajshahi DC,Rajshahi,SKU1011,Cotton T-Shirt (V2),Apparel,766,142,4181.43,3202975.38,False
+Rajshahi DC,Rajshahi,SKU1012,Panjabi,Apparel,417,164,2950.81,1230487.77,False
+Rajshahi DC,Rajshahi,SKU1013,Panjabi (V2),Apparel,181,126,3729.01,674950.81,False
+Rajshahi DC,Rajshahi,SKU1014,Sneakers,Apparel,183,145,2078.85,380429.55,False
+Rajshahi DC,Rajshahi,SKU1015,Sneakers (V2),Apparel,333,118,1138.49,379117.17,False
+Rajshahi DC,Rajshahi,SKU1016,Saree,Apparel,596,173,2562.44,1527214.24,False
+Rajshahi DC,Rajshahi,SKU1017,Saree (V2),Apparel,686,169,427.61,293340.46,False
+Rajshahi DC,Rajshahi,SKU1018,Denim Jacket,Apparel,142,160,3750.2,532528.4,True
+Rajshahi DC,Rajshahi,SKU1019,Denim Jacket (V2),Apparel,566,62,2897.74,1640120.84,False
+Rajshahi DC,Rajshahi,SKU1020,Bedsheet Set,Home & Living,154,132,3447.68,530942.72,False
+Rajshahi DC,Rajshahi,SKU1021,Bedsheet Set (V2),Home & Living,243,169,1692.19,411202.17,False
+Rajshahi DC,Rajshahi,SKU1022,Table Lamp,Home & Living,614,94,4372.54,2684739.56,False
+Rajshahi DC,Rajshahi,SKU1023,Table Lamp (V2),Home & Living,14,96,4035.08,56491.12,True
+Rajshahi DC,Rajshahi,SKU1024,Non-stick Pan,Home & Living,722,186,3535.97,2552970.34,False
+Rajshahi DC,Rajshahi,SKU1025,Non-stick Pan (V2),Home & Living,403,177,996.68,401662.04,False
+Rajshahi DC,Rajshahi,SKU1026,Storage Box,Home & Living,452,198,2180.24,985468.48,False
+Rajshahi DC,Rajshahi,SKU1027,Storage Box (V2),Home & Living,122,129,340.55,41547.1,True
+Rajshahi DC,Rajshahi,SKU1028,Curtain Set,Home & Living,144,77,821.16,118247.04,False
+Rajshahi DC,Rajshahi,SKU1029,Curtain Set (V2),Home & Living,123,61,3121.26,383914.98,False
+Rajshahi DC,Rajshahi,SKU1030,Face Wash,Beauty,755,158,3389.72,2559238.6,False
+Rajshahi DC,Rajshahi,SKU1031,Face Wash (V2),Beauty,398,174,4358.67,1734750.66,False
+Rajshahi DC,Rajshahi,SKU1032,Sunscreen SPF50,Beauty,453,119,1567.34,710005.02,False
+Rajshahi DC,Rajshahi,SKU1033,Sunscreen SPF50 (V2),Beauty,387,119,1761.5,681700.5,False
+Rajshahi DC,Rajshahi,SKU1034,Hair Serum,Beauty,324,177,2192.57,710392.68,False
+Rajshahi DC,Rajshahi,SKU1035,Hair Serum (V2),Beauty,776,86,974.2,755979.2,False
+Rajshahi DC,Rajshahi,SKU1036,Lipstick,Beauty,589,68,715.16,421229.24,False
+Rajshahi DC,Rajshahi,SKU1037,Lipstick (V2),Beauty,636,195,2219.32,1411487.52,False
+Rajshahi DC,Rajshahi,SKU1038,Perfume,Beauty,578,135,1137.06,657220.68,False
+Rajshahi DC,Rajshahi,SKU1039,Perfume (V2),Beauty,759,168,3063.69,2325340.71,False
+Rajshahi DC,Rajshahi,SKU1040,Basmati Rice 5kg,Grocery,629,193,2051.61,1290462.69,False
+Rajshahi DC,Rajshahi,SKU1041,Basmati Rice 5kg (V2),Grocery,433,173,3772.15,1633340.95,False
+Rajshahi DC,Rajshahi,SKU1042,Mustard Oil 1L,Grocery,719,125,3196.15,2298031.85,False
+Rajshahi DC,Rajshahi,SKU1043,Mustard Oil 1L (V2),Grocery,582,150,1508.79,878115.78,False
+Rajshahi DC,Rajshahi,SKU1044,Green Tea Pack,Grocery,791,148,3770.33,2982331.03,False
+Rajshahi DC,Rajshahi,SKU1045,Green Tea Pack (V2),Grocery,578,189,3650.72,2110116.16,False
+Rajshahi DC,Rajshahi,SKU1046,Spice Combo,Grocery,8,79,1835.53,14684.24,True
+Rajshahi DC,Rajshahi,SKU1047,Spice Combo (V2),Grocery,262,157,1404.23,367908.26,False
+Rajshahi DC,Rajshahi,SKU1048,Honey Jar,Grocery,350,180,3118.86,1091601.0,False
+Rajshahi DC,Rajshahi,SKU1049,Honey Jar (V2),Grocery,62,110,757.92,46991.04,True
