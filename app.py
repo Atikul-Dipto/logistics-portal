@@ -1,9 +1,12 @@
 import plotly.express as px
 import streamlit as st
 
-from utils.data_loader import compact_number, load_shipments
+from utils.animated_metric import animated_kpi_row
+from utils.data_loader import compact_parts, load_shipments
+from utils.theme import apply_theme
 
 st.set_page_config(page_title="Logistics Portal · Overview", page_icon="📦", layout="wide")
+apply_theme()
 
 PLOTLY_TEMPLATE = "plotly_dark"
 ACCENT = "#5b8def"
@@ -39,21 +42,16 @@ avg_delivery_days = delivered["delivery_days"].mean() if len(delivered) else 0.0
 total_cost = filtered["shipping_cost"].sum()
 active_delayed = filtered[filtered["status"] == "Delayed"].shape[0]
 
-c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.2, 1])
-for col, label, value in zip(
-    [c1, c2, c3, c4, c5],
-    ["Total Shipments", "On-Time Delivery", "Avg Delivery Time", "Total Shipping Cost", "Active Delays"],
+cost_amount, cost_suffix = compact_parts(total_cost)
+animated_kpi_row(
     [
-        f"{total_shipments:,}",
-        f"{on_time_rate:.1f}%",
-        f"{avg_delivery_days:.1f} days",
-        f"BDT {compact_number(total_cost)}",
-        f"{active_delayed:,}",
-    ],
-):
-    with col:
-        with st.container(border=True):
-            st.metric(label, value)
+        {"label": "Total Shipments", "value": total_shipments},
+        {"label": "On-Time Delivery", "value": round(on_time_rate, 1), "decimals": 1, "suffix": "%"},
+        {"label": "Avg Delivery Time", "value": round(avg_delivery_days, 1), "decimals": 1, "suffix": " days"},
+        {"label": "Total Shipping Cost", "value": cost_amount, "prefix": "BDT ", "suffix": cost_suffix},
+        {"label": "Active Delays", "value": active_delayed},
+    ]
+)
 
 st.divider()
 

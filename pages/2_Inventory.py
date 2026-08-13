@@ -1,9 +1,12 @@
 import plotly.express as px
 import streamlit as st
 
-from utils.data_loader import compact_number, load_inventory
+from utils.animated_metric import animated_kpi_row
+from utils.data_loader import compact_parts, load_inventory
+from utils.theme import apply_theme
 
 st.set_page_config(page_title="Logistics Portal · Inventory", page_icon="🏬", layout="wide")
+apply_theme()
 
 PLOTLY_TEMPLATE = "plotly_dark"
 ACCENT = "#5b8def"
@@ -26,16 +29,14 @@ if category:
 if low_stock_only:
     filtered = filtered[filtered["low_stock"]]
 
-c1, c2, c3 = st.columns(3)
-with c1:
-    with st.container(border=True):
-        st.metric("Total units on hand", f"{filtered['on_hand'].sum():,}")
-with c2:
-    with st.container(border=True):
-        st.metric("Total stock value", f"BDT {compact_number(filtered['stock_value'].sum())}")
-with c3:
-    with st.container(border=True):
-        st.metric("Low-stock SKUs", f"{filtered['low_stock'].sum():,}")
+stock_amount, stock_suffix = compact_parts(filtered["stock_value"].sum())
+animated_kpi_row(
+    [
+        {"label": "Total units on hand", "value": int(filtered["on_hand"].sum())},
+        {"label": "Total stock value", "value": stock_amount, "prefix": "BDT ", "suffix": stock_suffix},
+        {"label": "Low-stock SKUs", "value": int(filtered["low_stock"].sum())},
+    ]
+)
 
 st.divider()
 

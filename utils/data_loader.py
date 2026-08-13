@@ -35,11 +35,16 @@ def load_warehouses() -> pd.DataFrame:
     return pd.read_csv(DATA_DIR / "warehouses.csv")
 
 
-def compact_number(value: float) -> str:
+def compact_parts(value: float) -> tuple[float, str]:
     for divisor, suffix in ((1_000_000, "M"), (1_000, "K")):
         if abs(value) >= divisor:
-            return f"{value / divisor:.0f}{suffix}"
-    return f"{value:,.0f}"
+            return round(value / divisor), suffix
+    return round(value), ""
+
+
+def compact_number(value: float) -> str:
+    amount, suffix = compact_parts(value)
+    return f"{amount:,.0f}{suffix}"
 
 
 def kpi_delta_color(value: float, higher_is_better: bool = True) -> str:
