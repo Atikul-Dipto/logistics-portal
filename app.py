@@ -11,6 +11,7 @@ first_mile = st.Page("pages/5_FirstMile.py", title="First Mile", icon="📥")
 hub_scorecard = st.Page("pages/6_HubScorecard.py", title="Hub Scorecard", icon="🏆")
 
 pg = st.navigation(
-    [overview, shipments, inventory, analytics, first_mile, last_mile, hub_scorecard]
+    [overview, shipments, inventory, analytics, first_mile, last_mile, hub_scorecard],
+    position="top",
 )
 pg.run()
