@@ -222,6 +222,76 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stMetric"]):ho
     border-color: rgba(255, 255, 255, 0.08);
 }
 
+/* ---------- live activity feed ---------- */
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: #4ade80;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+.live-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: live-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55); }
+    70% { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+
+.live-event {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 2px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.92rem;
+    animation: fadeInUp 0.4s ease both;
+}
+
+.live-event:last-child {
+    border-bottom: none;
+}
+
+.live-event__icon {
+    font-size: 1rem;
+}
+
+.live-event__label {
+    font-weight: 600;
+    color: #eef1fb;
+    white-space: nowrap;
+}
+
+.live-event__detail {
+    color: #9aa3af;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.live-event__time {
+    color: #6b7280;
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .live-dot {
+        animation: none;
+    }
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 900px) {
     .hero-title__text { font-size: 1.9rem; }

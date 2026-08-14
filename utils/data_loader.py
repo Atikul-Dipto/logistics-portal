@@ -40,6 +40,11 @@ def load_last_mile() -> pd.DataFrame:
     return pd.read_csv(DATA_DIR / "last_mile.csv", parse_dates=["order_date"])
 
 
+@st.cache_data
+def load_first_mile() -> pd.DataFrame:
+    return pd.read_csv(DATA_DIR / "first_mile.csv", parse_dates=["request_date"])
+
+
 def compact_parts(value: float) -> tuple[float, str]:
     for divisor, suffix in ((1_000_000, "M"), (1_000, "K")):
         if abs(value) >= divisor:

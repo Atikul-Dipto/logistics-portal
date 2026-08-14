@@ -66,6 +66,7 @@ DISTRICTS = [
 ]
 
 N_LAST_MILE = 6000
+N_FIRST_MILE = 5000
 
 
 def build_skus():
@@ -229,11 +230,56 @@ def build_last_mile() -> pd.DataFrame:
     )
 
 
+def build_first_mile() -> pd.DataFrame:
+    """Seller pickup requests: request -> hub intake, before the
+    last-mile leg takes over."""
+    n = N_FIRST_MILE
+    request_dates = START_DATE + pd.to_timedelta(
+        RNG.integers(0, (END_DATE - START_DATE).days, size=n), unit="D"
+    )
+
+    hub_base = dict(zip(HUBS, RNG.uniform(2.0, 4.5, size=len(HUBS))))
+    hub_base["Probartak Hub"] = 7.8  # same slow-outlier hub as last-mile
+    hub_base["3PL Hub"] = 5.6
+
+    origin_hub = RNG.choice(HUBS, size=n)
+    seller_zone = RNG.choice(DISTRICTS, size=n)
+    fleet_type = RNG.choice(FLEET_TYPES, size=n, p=[0.35, 0.30, 0.35])
+
+    status_roll = RNG.random(n)
+    pickup_status = np.select(
+        [status_roll < 0.82, status_roll < 0.90, status_roll < 0.96],
+        ["Completed", "Failed", "Pending"],
+        default="Cancelled",
+    )
+
+    fleet_factor = np.select(
+        [fleet_type == "Ownfleet", fleet_type == "Carrybee", fleet_type == "3PL"],
+        [0.8, 1.0, 1.25],
+    )
+    base_hours = np.array([hub_base[h] for h in origin_hub])
+    noise = RNG.normal(0, 0.8, size=n)
+    duration = np.clip(base_hours * fleet_factor + noise, 0.5, None)
+    pickup_duration_hours = np.where(np.isin(pickup_status, ["Completed", "Failed"]), np.round(duration, 2), np.nan)
+
+    return pd.DataFrame(
+        {
+            "request_date": request_dates,
+            "origin_hub": origin_hub,
+            "seller_zone": seller_zone,
+            "fleet_type": fleet_type,
+            "pickup_status": pickup_status,
+            "pickup_duration_hours": pickup_duration_hours,
+        }
+    )
+
+
 if __name__ == "__main__":
     skus = build_skus()
     shipments = build_shipments(skus)
     inventory = build_inventory(skus)
     last_mile = build_last_mile()
+    first_mile = build_first_mile()
 
     warehouses_df = pd.DataFrame(WAREHOUSES)
 
@@ -242,8 +288,10 @@ if __name__ == "__main__":
     inventory.to_csv("data/inventory.csv", index=False)
     warehouses_df.to_csv("data/warehouses.csv", index=False)
     last_mile.to_csv("data/last_mile.csv", index=False)
+    first_mile.to_csv("data/first_mile.csv", index=False)
 
     print(f"shipments: {len(shipments)} rows")
     print(f"inventory: {len(inventory)} rows")
     print(f"skus: {len(skus)} rows")
     print(f"last_mile: {len(last_mile)} rows")
+    print(f"first_mile: {len(first_mile)} rows")

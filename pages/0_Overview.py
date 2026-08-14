@@ -4,6 +4,7 @@ import streamlit as st
 from utils.animated_metric import animated_kpi_row
 from utils.charts import style_fig
 from utils.data_loader import compact_parts, load_shipments
+from utils.live_feed import render_live_feed
 from utils.theme import apply_theme, page_title
 
 apply_theme()
@@ -12,6 +13,9 @@ PLOTLY_TEMPLATE = "plotly_dark"
 ACCENT = "#5b8def"
 
 page_title("📦", "Logistics Operations Portal", "Shipment, inventory, and delivery performance across a multi-warehouse network.")
+
+render_live_feed()
+st.write("")
 
 df = load_shipments()
 
