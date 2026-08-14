@@ -3,7 +3,6 @@ import streamlit as st
 from utils.data_loader import load_shipments
 from utils.theme import apply_theme, page_title
 
-st.set_page_config(page_title="Logistics Portal · Shipments", page_icon="🚚", layout="wide")
 apply_theme()
 
 page_title("🚚", "Shipments", "Search, filter, and inspect individual shipments across the network.")

@@ -5,7 +5,6 @@ from utils.animated_metric import animated_kpi_row
 from utils.data_loader import compact_parts, load_inventory
 from utils.theme import apply_theme, page_title
 
-st.set_page_config(page_title="Logistics Portal · Inventory", page_icon="🏬", layout="wide")
 apply_theme()
 
 PLOTLY_TEMPLATE = "plotly_dark"
