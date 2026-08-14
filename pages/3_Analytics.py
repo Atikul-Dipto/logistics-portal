@@ -84,14 +84,14 @@ with left2:
         delays = delays.sort_values("count", ascending=False).reset_index(drop=True)
         delays["cum_pct"] = delays["count"].cumsum() / delays["count"].sum() * 100
 
-        fig3 = px.bar(delays, x="reason", y="count", template=PLOTLY_TEMPLATE, color_discrete_sequence=[CHART_COLORS[3]])
+        fig3 = px.bar(delays, x="reason", y="count", template=PLOTLY_TEMPLATE, color_discrete_sequence=[CHART_COLORS[2]])
         fig3.add_scatter(
             x=delays["reason"],
             y=delays["cum_pct"],
             mode="lines+markers",
             name="Cumulative %",
             yaxis="y2",
-            line=dict(color=CHART_COLORS[0], width=3),
+            line=dict(color=CHART_COLORS[1], width=3),
         )
         fig3.update_layout(
             xaxis=dict(title=""),
