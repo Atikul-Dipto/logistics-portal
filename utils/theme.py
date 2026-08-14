@@ -3,8 +3,20 @@ an animated gradient background, and an animated/responsive filter
 panel — injected once per page. Loosely modeled on searates.com's
 bold-headline + pill-control language, kept in this app's existing
 dark palette.
+
+One color system, everywhere: the app background, sidebar, bordered
+containers, KPI cards, dataframe grid, and chart backgrounds all
+share the same two tones (BG / SURFACE) instead of each defaulting
+to its own shade of near-black, which previously made every block
+look like a disconnected cutout rather than part of one dashboard.
 """
 import streamlit as st
+
+BG = "#0f1115"
+SURFACE = "#161a22"
+SURFACE_BORDER = "rgba(255, 255, 255, 0.09)"
+TEXT_MUTED = "#9aa3af"
+ACCENT = "#5b8def"
 
 _CSS = """
 <style>
@@ -116,12 +128,21 @@ h1, h2, h3, .stApp [data-testid="stMetricValue"] {
     margin-bottom: 1.6rem;
 }
 
-/* ---------- metric / bordered card motion ---------- */
+/* ---------- one surface color for every card/container ----------
+   Bordered containers, KPI cards (see animated_metric.py), the
+   sidebar, the dataframe grid (via config.toml secondaryBackgroundColor)
+   and chart backgrounds (see charts.py) all share this single tone
+   instead of five different near-black shades. */
+[data-testid="stVerticalBlockBorderWrapper"] > div {
+    background: #161a22 !important;
+    border-color: rgba(255, 255, 255, 0.09) !important;
+}
+
 [data-testid="stMetric"] {
     transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stMetric"]) {
+div[data-testid="stVerticalBlockBorderWrapper"] {
     transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease,
         border-color 0.25s ease;
 }
@@ -132,6 +153,12 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stMetric"]):ho
     border-color: rgba(91, 141, 239, 0.5) !important;
 }
 
+[data-testid="stDataFrame"] {
+    background: #161a22;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
 /* ---------- animated, pill-styled filter panel ---------- */
 /* No transform/animation on the sidebar element itself — Streamlit
    uses transform on this same element to show/hide it on narrow
@@ -139,7 +166,7 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stMetric"]):ho
    with that, leaving the sidebar stuck at a sliver width on mobile.
    The motion lives on the inner content instead (see below). */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, rgba(22, 25, 32, 0.97), rgba(13, 15, 19, 0.99));
+    background: #161a22;
     border-right: 1px solid rgba(255, 255, 255, 0.07);
 }
 

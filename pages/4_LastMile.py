@@ -55,51 +55,54 @@ st.write("")
 left, right = st.columns([1, 1.6])
 
 with left:
-    st.subheader("Avg. Processing Time")
-    by_hub = (
-        filtered.groupby("destination_hub")["pending_to_delivered_hours"]
-        .mean()
-        .sort_values(ascending=False)
-        .round(2)
-        .reset_index()
-    )
-    by_hub.columns = ["Destination Hub", "Pending to Delivered (Hours)"]
-    max_hours = float(by_hub["Pending to Delivered (Hours)"].max())  # rows are pre-sorted desc, before the Total row is appended below
-    by_hub.loc[len(by_hub)] = ["Total", round(filtered["pending_to_delivered_hours"].mean(), 2)]
+    with st.container(border=True):
+        st.subheader("Avg. Processing Time")
+        by_hub = (
+            filtered.groupby("destination_hub")["pending_to_delivered_hours"]
+            .mean()
+            .sort_values(ascending=False)
+            .round(2)
+            .reset_index()
+        )
+        by_hub.columns = ["Destination Hub", "Pending to Delivered (Hours)"]
+        max_hours = float(by_hub["Pending to Delivered (Hours)"].max())  # rows are pre-sorted desc, before the Total row is appended below
+        by_hub.loc[len(by_hub)] = ["Total", round(filtered["pending_to_delivered_hours"].mean(), 2)]
 
-    st.dataframe(
-        by_hub,
-        column_config={
-            "Pending to Delivered (Hours)": st.column_config.ProgressColumn(
-                "Pending to Delivered (Hours)", format="%.2f", min_value=0, max_value=max_hours
-            )
-        },
-        use_container_width=True,
-        hide_index=True,
-        height=460,
-    )
+        st.dataframe(
+            by_hub,
+            column_config={
+                "Pending to Delivered (Hours)": st.column_config.ProgressColumn(
+                    "Pending to Delivered (Hours)", format="%.2f", min_value=0, max_value=max_hours
+                )
+            },
+            use_container_width=True,
+            hide_index=True,
+            height=460,
+        )
 
 with right:
-    st.subheader("Last Mile Processing Time by Destination Hub (Hour)")
-    pivot_hub = pd.pivot_table(
+    with st.container(border=True):
+        st.subheader("Last Mile Processing Time by Destination Hub (Hour)")
+        pivot_hub = pd.pivot_table(
+            filtered,
+            index="destination_hub",
+            columns="shipping_zone",
+            values="pending_to_delivered_hours",
+            aggfunc="mean",
+            margins=True,
+            margins_name="Total",
+        ).round(2)
+        st.dataframe(pivot_hub, use_container_width=True, height=460)
+
+with st.container(border=True):
+    st.subheader("Last Mile Processing Time by Fleet Type (Hour)")
+    pivot_fleet = pd.pivot_table(
         filtered,
-        index="destination_hub",
+        index="fleet_type",
         columns="shipping_zone",
         values="pending_to_delivered_hours",
         aggfunc="mean",
         margins=True,
         margins_name="Total",
     ).round(2)
-    st.dataframe(pivot_hub, use_container_width=True, height=460)
-
-st.subheader("Last Mile Processing Time by Fleet Type (Hour)")
-pivot_fleet = pd.pivot_table(
-    filtered,
-    index="fleet_type",
-    columns="shipping_zone",
-    values="pending_to_delivered_hours",
-    aggfunc="mean",
-    margins=True,
-    margins_name="Total",
-).round(2)
-st.dataframe(pivot_fleet, use_container_width=True)
+    st.dataframe(pivot_fleet, use_container_width=True)

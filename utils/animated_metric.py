@@ -26,7 +26,7 @@ _PAGE_TEMPLATE = """
   }}
   .akpi-card {{
     flex: 1 1 150px;
-    background: rgba(26, 29, 36, 0.9);
+    background: #161a22;
     border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: 12px;
     padding: 16px 18px;

@@ -45,27 +45,28 @@ STATUS_COLOR = {
 display = filtered.copy()
 display["status"] = display["status"].map(lambda s: f"{STATUS_COLOR.get(s, '')} {s}")
 
-st.dataframe(
-    display[
-        [
-            "shipment_id",
-            "order_date",
-            "warehouse",
-            "destination_region",
-            "carrier",
-            "product",
-            "qty",
-            "shipping_cost",
-            "status",
-            "expected_delivery",
-            "actual_delivery",
-            "delay_reason",
-        ]
-    ].sort_values("order_date", ascending=False),
-    use_container_width=True,
-    height=560,
-    hide_index=True,
-)
+with st.container(border=True):
+    st.dataframe(
+        display[
+            [
+                "shipment_id",
+                "order_date",
+                "warehouse",
+                "destination_region",
+                "carrier",
+                "product",
+                "qty",
+                "shipping_cost",
+                "status",
+                "expected_delivery",
+                "actual_delivery",
+                "delay_reason",
+            ]
+        ].sort_values("order_date", ascending=False),
+        use_container_width=True,
+        height=560,
+        hide_index=True,
+    )
 
 csv = filtered.to_csv(index=False).encode("utf-8")
 st.download_button("Download filtered results (CSV)", csv, "shipments_filtered.csv", "text/csv")

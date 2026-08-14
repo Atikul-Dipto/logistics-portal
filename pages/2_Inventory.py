@@ -2,6 +2,7 @@ import plotly.express as px
 import streamlit as st
 
 from utils.animated_metric import animated_kpi_row
+from utils.charts import style_fig
 from utils.data_loader import compact_parts, load_inventory
 from utils.theme import apply_theme, page_title
 
@@ -41,33 +42,34 @@ st.divider()
 left, right = st.columns([1, 1.2])
 
 with left:
-    st.subheader("Stock value by warehouse")
-    by_wh = filtered.groupby("warehouse")["stock_value"].sum().sort_values(ascending=False).reset_index()
-    fig = px.bar(by_wh, x="warehouse", y="stock_value", template=PLOTLY_TEMPLATE, color_discrete_sequence=[ACCENT])
-    fig.update_layout(margin=dict(t=10, b=10))
-    st.plotly_chart(fig, use_container_width=True)
+    with st.container(border=True):
+        st.subheader("Stock value by warehouse")
+        by_wh = filtered.groupby("warehouse")["stock_value"].sum().sort_values(ascending=False).reset_index()
+        fig = px.bar(by_wh, x="warehouse", y="stock_value", template=PLOTLY_TEMPLATE, color_discrete_sequence=[ACCENT])
+        st.plotly_chart(style_fig(fig), use_container_width=True)
 
 with right:
-    st.subheader("Stock value by category")
-    by_cat = filtered.groupby("category")["stock_value"].sum().sort_values(ascending=False).reset_index()
-    fig2 = px.pie(
-        by_cat,
-        names="category",
-        values="stock_value",
-        hole=0.5,
-        template=PLOTLY_TEMPLATE,
-        color_discrete_sequence=["#5b8def", "#22d3ee", "#7c3aed", "#f59e0b", "#ef4444"],
-    )
-    fig2.update_layout(margin=dict(t=10, b=10))
-    st.plotly_chart(fig2, use_container_width=True)
+    with st.container(border=True):
+        st.subheader("Stock value by category")
+        by_cat = filtered.groupby("category")["stock_value"].sum().sort_values(ascending=False).reset_index()
+        fig2 = px.pie(
+            by_cat,
+            names="category",
+            values="stock_value",
+            hole=0.5,
+            template=PLOTLY_TEMPLATE,
+            color_discrete_sequence=["#5b8def", "#22d3ee", "#7c3aed", "#f59e0b", "#ef4444"],
+        )
+        st.plotly_chart(style_fig(fig2), use_container_width=True)
 
-st.subheader("Low-stock alerts")
-low = filtered[filtered["low_stock"]].sort_values("on_hand")
-if low.empty:
-    st.success("No SKUs below reorder point for the current filters.")
-else:
-    st.dataframe(
-        low[["warehouse", "sku", "product", "category", "on_hand", "reorder_point", "stock_value"]],
-        use_container_width=True,
-        hide_index=True,
-    )
+with st.container(border=True):
+    st.subheader("Low-stock alerts")
+    low = filtered[filtered["low_stock"]].sort_values("on_hand")
+    if low.empty:
+        st.success("No SKUs below reorder point for the current filters.")
+    else:
+        st.dataframe(
+            low[["warehouse", "sku", "product", "category", "on_hand", "reorder_point", "stock_value"]],
+            use_container_width=True,
+            hide_index=True,
+        )
