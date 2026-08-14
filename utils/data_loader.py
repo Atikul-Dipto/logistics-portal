@@ -1,4 +1,5 @@
 """Cached data loading + derived-column helpers shared across pages."""
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -48,6 +49,12 @@ def load_last_mile() -> pd.DataFrame:
 @st.cache_data
 def load_first_mile() -> pd.DataFrame:
     return pd.read_csv(DATA_DIR / "first_mile.csv", parse_dates=["request_date"])
+
+
+@st.cache_data
+def load_bd_divisions_geojson() -> dict:
+    with open(DATA_DIR / "bd_divisions.geojson", encoding="utf-8") as f:
+        return json.load(f)
 
 
 def compact_parts(value: float) -> tuple[float, str]:

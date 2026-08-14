@@ -3,7 +3,7 @@ import streamlit as st
 
 from utils.animated_metric import animated_kpi_row
 from utils.charts import CHART_COLORS, style_fig
-from utils.data_loader import compact_parts, load_shipments
+from utils.data_loader import compact_parts, load_bd_divisions_geojson, load_shipments
 from utils.live_feed import render_live_feed
 from utils.theme import apply_theme, page_title
 
@@ -14,20 +14,24 @@ ACCENT = "#5b8def"
 REGION_CHART_KEY = "overview_region_chart"
 MAP_CHART_KEY = "overview_map_chart"
 
-# approximate division/district HQ coordinates, used to place each
-# destination_region as a bubble on the network map below
-REGION_COORDS = {
-    "Dhaka": (23.8103, 90.4125),
-    "Chattogram": (22.3569, 91.7832),
-    "Sylhet": (24.8949, 91.8687),
-    "Khulna": (22.8456, 89.5403),
-    "Rajshahi": (24.3745, 88.6042),
-    "Barisal": (22.7010, 90.3535),
-    "Rangpur": (25.7439, 89.2752),
-    "Mymensingh": (24.7471, 90.4203),
-    "Comilla": (23.4607, 91.1809),
-    "Narayanganj": (23.6238, 90.5000),
+# our destination_region values -> the 8 official divisions in
+# data/bd_divisions.geojson. Comilla and Narayanganj are districts
+# (not divisions) so their volume rolls up into their parent
+# division on the map; every other page keeps the finer 10-region
+# breakdown.
+DIVISION_MAP = {
+    "Dhaka": "Dhaka",
+    "Chattogram": "Chattogram",
+    "Sylhet": "Sylhet",
+    "Khulna": "Khulna",
+    "Rajshahi": "Rajshahi",
+    "Barisal": "Barishal",
+    "Rangpur": "Rangpur",
+    "Mymensingh": "Mymensingh",
+    "Comilla": "Chattogram",
+    "Narayanganj": "Dhaka",
 }
+DIVISION_ORDER = sorted(set(DIVISION_MAP.values()))
 
 page_title("📦", "Logistics Operations Portal", "Shipment, inventory, and delivery performance across a multi-warehouse network.")
 
@@ -66,23 +70,28 @@ base_filtered = base_filtered[(base_filtered["weight_kg"] >= weight_range[0]) & 
 
 # clicking the map or the region bar chart below cross-filters the
 # KPIs and the two charts above them, Power-BI style — the map wins
-# if both happen to be set, since it's the more prominent control
+# if both happen to be set, since it's the more prominent control.
+# The map clicks a *division* (8, grouping Comilla into Chattogram
+# and Narayanganj into Dhaka); the bar clicks an exact *region* (10).
 region_selection = st.session_state.get(REGION_CHART_KEY, {}).get("selection", {}).get("points", [])
 bar_clicked_region = region_selection[0]["x"] if region_selection else None
 
 map_selection = st.session_state.get(MAP_CHART_KEY, {}).get("selection", {}).get("points", [])
-map_clicked_region = None
+map_clicked_division = None
 if map_selection and "point_index" in map_selection[0]:
-    map_region_order = sorted(base_filtered["destination_region"].unique())
     idx = map_selection[0]["point_index"]
-    if idx < len(map_region_order):
-        map_clicked_region = map_region_order[idx]
-
-clicked_region = map_clicked_region or bar_clicked_region
+    if idx < len(DIVISION_ORDER):
+        map_clicked_division = DIVISION_ORDER[idx]
 
 filtered = base_filtered.copy()
-if clicked_region:
-    filtered = filtered[filtered["destination_region"] == clicked_region]
+if map_clicked_division:
+    clicked_label = map_clicked_division
+    filtered = filtered[filtered["destination_region"].map(DIVISION_MAP) == map_clicked_division]
+elif bar_clicked_region:
+    clicked_label = bar_clicked_region
+    filtered = filtered[filtered["destination_region"] == bar_clicked_region]
+else:
+    clicked_label = None
 
 # ---------- KPI row ----------
 total_shipments = len(filtered)
@@ -92,10 +101,10 @@ avg_delivery_days = delivered["delivery_days"].mean() if len(delivered) else 0.0
 total_cost = filtered["shipping_cost"].sum()
 active_delayed = filtered[filtered["status"] == "Delayed"].shape[0]
 
-if clicked_region:
+if clicked_label:
     badge_l, badge_r = st.columns([5, 1])
     with badge_l:
-        st.caption(f"🔎 Filtered to **{clicked_region}** (click the map or bar again to change it, or clear)")
+        st.caption(f"🔎 Filtered to **{clicked_label}** (click the map or bar again to change it, or clear)")
     with badge_r:
         if st.button("✕ Clear", use_container_width=True):
             st.session_state.pop(REGION_CHART_KEY, None)
@@ -161,45 +170,40 @@ with right:
         st.plotly_chart(style_fig(fig2), use_container_width=True)
 
 with st.container(border=True):
-    st.subheader("Network map — shipment volume by region")
-    st.caption("Bubble size and color = shipment volume. Click a hub to filter the whole page by that region.")
-    map_df = (
-        base_filtered.groupby("destination_region")
-        .agg(shipments=("shipment_id", "count"), on_time_rate=("on_time", "mean"))
-        .reset_index()
-        .sort_values("destination_region")
-    )
-    map_df["on_time_rate"] *= 100
-    map_df["lat"] = map_df["destination_region"].map(lambda r: REGION_COORDS[r][0])
-    map_df["lon"] = map_df["destination_region"].map(lambda r: REGION_COORDS[r][1])
+    st.subheader("Network map — shipment volume by division")
+    st.caption("Color = shipment volume. Click a division to filter the whole page by it — Comilla and Narayanganj roll up into their parent division here.")
+    geojson = load_bd_divisions_geojson()
 
-    fig_map = px.scatter_geo(
-        map_df,
-        lat="lat",
-        lon="lon",
-        size="shipments",
+    map_df = base_filtered.copy()
+    map_df["division"] = map_df["destination_region"].map(DIVISION_MAP)
+    map_agg = (
+        map_df.groupby("division")
+        .agg(shipments=("shipment_id", "count"), on_time_rate=("on_time", "mean"))
+        .reindex(DIVISION_ORDER, fill_value=0)
+        .reset_index()
+    )
+    map_agg["on_time_rate"] = (map_agg["on_time_rate"] * 100).round(1)
+
+    fig_map = px.choropleth(
+        map_agg,
+        geojson=geojson,
+        locations="division",
+        featureidkey="properties.division",
         color="shipments",
-        color_continuous_scale=[[0, "#22304d"], [0.5, "#3a5aa8"], [1, "#5b8def"]],
-        hover_name="destination_region",
-        hover_data={"shipments": True, "on_time_rate": ":.1f", "lat": False, "lon": False},
-        size_max=46,
-        projection="mercator",
+        color_continuous_scale=[[0, "#1c2333"], [0.5, "#3a5aa8"], [1, "#5b8def"]],
+        hover_name="division",
+        hover_data={"shipments": True, "on_time_rate": ":.1f", "division": False},
     )
-    fig_map.update_traces(marker=dict(line=dict(width=1, color="rgba(238,242,255,0.6)")))
-    fig_map.update_geos(
-        fitbounds="locations",
-        visible=False,
-        showcountries=True,
-        countrycolor="rgba(255,255,255,0.25)",
-        showland=True,
-        landcolor="#161a22",
-        showocean=True,
-        oceancolor="#0f1115",
-        showlakes=False,
-        coastlinecolor="rgba(91,141,239,0.35)",
-        bgcolor="rgba(0,0,0,0)",
-        domain=dict(x=[0.15, 0.85]),
+    fig_map.update_traces(
+        marker_line_color="rgba(238,242,255,0.75)",
+        marker_line_width=1,
+        # Plotly dims every unselected shape by default once one is
+        # clicked, which washes the whole map to one flat tone —
+        # keep every division at full color regardless of selection.
+        selected=dict(marker=dict(opacity=1)),
+        unselected=dict(marker=dict(opacity=1)),
     )
+    fig_map.update_geos(fitbounds="locations", visible=False, bgcolor="rgba(0,0,0,0)")
     fig_map.update_layout(height=560, coloraxis_colorbar=dict(title="Shipments"))
     st.plotly_chart(
         style_fig(fig_map),
@@ -216,6 +220,7 @@ with st.container(border=True):
     region.columns = ["region", "shipments"]
     fig3 = px.bar(region, x="region", y="shipments", template=PLOTLY_TEMPLATE, color_discrete_sequence=[ACCENT])
     fig3.update_layout(clickmode="event+select")
+    fig3.update_traces(selected=dict(marker=dict(opacity=1)), unselected=dict(marker=dict(opacity=1)))
     st.plotly_chart(
         style_fig(fig3),
         use_container_width=True,

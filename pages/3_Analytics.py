@@ -99,6 +99,7 @@ with left:
             text=by_carrier["on_time_rate"].round(1).astype(str) + "%",
         )
         fig.update_layout(yaxis=dict(title="On-time %", range=[0, 100]), clickmode="event+select")
+        fig.update_traces(selected=dict(marker=dict(opacity=1)), unselected=dict(marker=dict(opacity=1)))
         st.plotly_chart(
             style_fig(fig),
             use_container_width=True,
