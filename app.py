@@ -6,6 +6,7 @@ overview = st.Page("pages/0_Overview.py", title="Overview", icon="📦", default
 shipments = st.Page("pages/1_Shipments.py", title="Shipments", icon="🚚")
 inventory = st.Page("pages/2_Inventory.py", title="Inventory", icon="🏬")
 analytics = st.Page("pages/3_Analytics.py", title="Analytics", icon="📈")
+last_mile = st.Page("pages/4_LastMile.py", title="Last Mile", icon="⏱️")
 
-pg = st.navigation([overview, shipments, inventory, analytics])
+pg = st.navigation([overview, shipments, inventory, analytics, last_mile])
 pg.run()

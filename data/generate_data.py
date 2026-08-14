@@ -39,6 +39,34 @@ N_SHIPMENTS = 4200
 START_DATE = pd.Timestamp("2025-09-01")
 END_DATE = pd.Timestamp("2026-08-13")
 
+# ---------- last-mile hub network ----------
+HUBS = [
+    "Probartak Hub", "3PL Hub", "Agrabad Hub", "Carry Bee Hub", "Badda Hub",
+    "Jatrabari Hub", "Tejgaon Hub", "Dhanmondi Hub", "Old Town Hub", "Tongi Hub",
+    "Uttara Hub", "Narayanganj Hub",
+]
+
+FLEET_TYPES = ["3PL", "Carrybee", "Ownfleet"]
+
+DIVISIONS = [
+    "Dhaka", "Chattogram", "Khulna", "Rajshahi", "Barisal", "Sylhet", "Rangpur", "Mymensingh",
+]
+
+DISTRICTS = [
+    "Bagerhat", "Bandarban", "Barguna", "Barisal", "Bhola", "Bogra", "Brahmanbaria", "Chandpur",
+    "Chapainawabganj", "Chattogram", "Chattogram Sadar", "Chuadanga", "Cox's Bazar", "Cumilla",
+    "Dhaka North", "Dhaka South", "Dinajpur", "Faridpur", "Feni", "Gaibandha", "Gazipur",
+    "Gopalganj", "Habiganj", "Jamalpur", "Jashore", "Jhalokati", "Jhenaidah", "Joypurhat",
+    "Khagrachhari", "Khulna", "Kishoreganj", "Kurigram", "Kushtia", "Lakshmipur", "Lalmonirhat",
+    "Madaripur", "Magura", "Manikganj", "Meherpur", "Moulvibazar", "Munshiganj", "Mymensingh",
+    "Naogaon", "Narail", "Narayanganj", "Narsingdi", "Natore", "Netrokona", "Nilphamari",
+    "Noakhali", "Pabna", "Panchagarh", "Patuakhali", "Pirojpur", "Rajbari", "Rajshahi",
+    "Rangamati", "Rangpur", "Satkhira", "Shariatpur", "Sherpur", "Sirajganj", "Sunamganj",
+    "Sylhet", "Tangail", "Thakurgaon",
+]
+
+N_LAST_MILE = 6000
+
 
 def build_skus():
     rows = []
@@ -162,10 +190,50 @@ def build_inventory(skus: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def build_last_mile() -> pd.DataFrame:
+    n = N_LAST_MILE
+    order_dates = START_DATE + pd.to_timedelta(
+        RNG.integers(0, (END_DATE - START_DATE).days, size=n), unit="D"
+    )
+
+    hub_base = dict(zip(HUBS, RNG.uniform(38, 60, size=len(HUBS))))
+    hub_base["Probartak Hub"] = 118  # known slow outlier hub
+    hub_base["3PL Hub"] = 78
+
+    source_hub = RNG.choice(HUBS, size=n)
+    destination_hub = RNG.choice(HUBS, size=n)
+    fleet_type = RNG.choice(FLEET_TYPES, size=n, p=[0.35, 0.30, 0.35])
+    division = RNG.choice(DIVISIONS, size=n)
+    district = RNG.choice(DISTRICTS, size=n)
+
+    fleet_factor = np.select(
+        [fleet_type == "Ownfleet", fleet_type == "Carrybee", fleet_type == "3PL"],
+        [0.85, 1.0, 1.2],
+    )
+    district_factor = 1 + RNG.random(n) * 0.6  # remoter districts take longer
+    base_hours = np.array([hub_base[h] for h in destination_hub])
+    noise = RNG.normal(0, 6, size=n)
+    hours = np.clip(base_hours * fleet_factor * district_factor * 0.6 + noise, 4, None)
+
+    return pd.DataFrame(
+        {
+            "order_date": order_dates,
+            "source_hub": source_hub,
+            "destination_hub": destination_hub,
+            "shipping_state": division,
+            "shipping_city": district,
+            "shipping_zone": district,
+            "fleet_type": fleet_type,
+            "pending_to_delivered_hours": np.round(hours, 2),
+        }
+    )
+
+
 if __name__ == "__main__":
     skus = build_skus()
     shipments = build_shipments(skus)
     inventory = build_inventory(skus)
+    last_mile = build_last_mile()
 
     warehouses_df = pd.DataFrame(WAREHOUSES)
 
@@ -173,7 +241,9 @@ if __name__ == "__main__":
     shipments.to_csv("data/shipments.csv", index=False)
     inventory.to_csv("data/inventory.csv", index=False)
     warehouses_df.to_csv("data/warehouses.csv", index=False)
+    last_mile.to_csv("data/last_mile.csv", index=False)
 
     print(f"shipments: {len(shipments)} rows")
     print(f"inventory: {len(inventory)} rows")
     print(f"skus: {len(skus)} rows")
+    print(f"last_mile: {len(last_mile)} rows")
