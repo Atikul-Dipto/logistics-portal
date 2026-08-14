@@ -169,6 +169,25 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has([data-testid="stMetric"]):ho
     overflow: hidden;
 }
 
+/* ---------- chart hover glow ----------
+   Plotly draws bars/points/geo markers as real SVG <path> elements,
+   so a plain CSS :hover works on them directly — no JS needed for
+   the "this mark is clickable" glow to feel alive. The glassy
+   tooltip itself is styled via hoverlabel in charts.py; this is
+   just the mark-level feedback underneath it. */
+.js-plotly-plot .bars path,
+.js-plotly-plot .point path,
+.js-plotly-plot path.point {
+    transition: filter 0.15s ease, opacity 0.15s ease;
+}
+
+.js-plotly-plot .bars path:hover,
+.js-plotly-plot .point path:hover,
+.js-plotly-plot path.point:hover {
+    filter: brightness(1.25) saturate(1.15);
+    cursor: pointer;
+}
+
 /* ---------- animated, pill-styled filter panel ---------- */
 /* No transform/animation on the sidebar element itself — Streamlit
    uses transform on this same element to show/hide it on narrow

@@ -15,10 +15,16 @@ page_title("🏬", "Inventory", "Stock levels by warehouse and SKU, with low-sto
 
 df = load_inventory()
 
-st.sidebar.header("Filters")
-warehouse = st.sidebar.multiselect("🏭 Warehouse", sorted(df["warehouse"].unique()))
-category = st.sidebar.multiselect("🏷️ Category", sorted(df["category"].unique()))
-low_stock_only = st.sidebar.checkbox("⚠️ Low stock only")
+with st.container(border=True):
+    c1, c2, c3 = st.columns([1.4, 1.4, 1])
+    with c1:
+        warehouse = st.multiselect("🏭 Warehouse", sorted(df["warehouse"].unique()))
+    with c2:
+        category = st.multiselect("🏷️ Category", sorted(df["category"].unique()))
+    with c3:
+        st.write("")
+        st.write("")
+        low_stock_only = st.checkbox("⚠️ Low stock only")
 
 filtered = df.copy()
 if warehouse:

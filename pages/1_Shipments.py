@@ -9,17 +9,29 @@ page_title("🚚", "Shipments", "Search, filter, and inspect individual shipment
 
 df = load_shipments()
 
-st.sidebar.header("Filters")
-status = st.sidebar.multiselect("🏷️ Status", sorted(df["status"].unique()))
-warehouse = st.sidebar.multiselect("🏭 Warehouse", sorted(df["warehouse"].unique()))
-carrier = st.sidebar.multiselect("🚚 Carrier", sorted(df["carrier"].unique()))
-region = st.sidebar.multiselect("📍 Destination region", sorted(df["destination_region"].unique()))
-seller_region = st.sidebar.multiselect("🌍 Seller Region", sorted(df["seller_region"].unique()))
-shop_name = st.sidebar.multiselect("🏪 Shop Name", sorted(df["shop_name"].unique()))
-seller_code = st.sidebar.multiselect("🔖 Seller Code", sorted(df["seller_code"].unique()))
-weight_lo, weight_hi = float(df["weight_kg"].min()), float(df["weight_kg"].max())
-weight_range = st.sidebar.slider("⚖️ Weight (kg)", min_value=weight_lo, max_value=weight_hi, value=(weight_lo, weight_hi))
-search = st.sidebar.text_input("🔍 Search shipment / order / package ID or SKU")
+with st.container(border=True):
+    c1, c2, c3, c4, c5 = st.columns(5)
+    with c1:
+        status = st.multiselect("🏷️ Status", sorted(df["status"].unique()))
+    with c2:
+        warehouse = st.multiselect("🏭 Warehouse", sorted(df["warehouse"].unique()))
+    with c3:
+        carrier = st.multiselect("🚚 Carrier", sorted(df["carrier"].unique()))
+    with c4:
+        region = st.multiselect("📍 Destination region", sorted(df["destination_region"].unique()))
+    with c5:
+        seller_region = st.multiselect("🌍 Seller Region", sorted(df["seller_region"].unique()))
+
+    c6, c7, c8, c9 = st.columns(4)
+    with c6:
+        shop_name = st.multiselect("🏪 Shop Name", sorted(df["shop_name"].unique()))
+    with c7:
+        seller_code = st.multiselect("🔖 Seller Code", sorted(df["seller_code"].unique()))
+    with c8:
+        weight_lo, weight_hi = float(df["weight_kg"].min()), float(df["weight_kg"].max())
+        weight_range = st.slider("⚖️ Weight (kg)", min_value=weight_lo, max_value=weight_hi, value=(weight_lo, weight_hi))
+    with c9:
+        search = st.text_input("🔍 Search shipment / order / package ID or SKU")
 
 filtered = df.copy()
 if status:

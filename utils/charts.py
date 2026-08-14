@@ -27,6 +27,16 @@ def style_fig(fig):
         font=dict(family="Plus Jakarta Sans, sans-serif", color="#e5e7eb"),
         legend=dict(font=dict(color="#e5e7eb")),
         margin=dict(t=16, b=16, l=8, r=8),
+        # glassmorphism hover card: translucent fill over a blurred-looking
+        # border rather than Plotly's default solid white/gray tooltip
+        hoverlabel=dict(
+            bgcolor="rgba(22,26,34,0.85)",
+            bordercolor="rgba(91,141,239,0.55)",
+            font=dict(family="Plus Jakarta Sans, sans-serif", color="#eef1fb", size=13),
+            align="left",
+        ),
+        hovermode="closest",
+        transition=dict(duration=300, easing="cubic-in-out"),
     )
     fig.update_xaxes(gridcolor="rgba(255,255,255,0.08)", zerolinecolor="rgba(255,255,255,0.12)", color=TEXT_MUTED)
     fig.update_yaxes(gridcolor="rgba(255,255,255,0.08)", zerolinecolor="rgba(255,255,255,0.12)", color=TEXT_MUTED)
