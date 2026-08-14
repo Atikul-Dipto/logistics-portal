@@ -2,10 +2,22 @@
 plots read as part of the same dashboard card instead of their own
 black rectangle (plotly_dark's default background doesn't match
 this app's palette) — letting the surrounding bordered container's
-color show through instead of painting a second, separate panel."""
+color show through instead of painting a second, separate panel.
+
+Also centralizes the app's single categorical color palette so every
+multi-series chart (pies, grouped bars, scatters colored by category)
+draws from the same blue/purple/cyan family instead of each page (or
+Plotly's own default rainbow) picking its own set."""
 from utils.theme import TEXT_MUTED
 
 TRANSPARENT = "rgba(0,0,0,0)"
+
+# One qualitative palette, shared by every chart in the app that
+# colors by category (carrier, status, leg, etc).
+CHART_COLORS = ["#5b8def", "#22d3ee", "#7c3aed", "#f59e0b", "#4ade80", "#ef4444", "#f472b6", "#64748b"]
+
+# Continuous scale for heatmaps, built from the same accent blue.
+HEATMAP_SCALE = [[0, "#161a22"], [0.5, "#3a5aa8"], [1, "#5b8def"]]
 
 
 def style_fig(fig):

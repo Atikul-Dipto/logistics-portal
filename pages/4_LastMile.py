@@ -9,43 +9,35 @@ apply_theme()
 page_title(
     "⏱️",
     "Last Mile Processing",
-    "Pending-to-delivered processing time by hub, fleet type, and shipping zone.",
+    "Pending-to-delivered processing time by hub, warehouse, and carrier.",
 )
 
 df = load_last_mile()
 
 # ---------- horizontal filter bar ---------- #
 with st.container(border=True):
-    c1, c2, c3, c4, c5, c6, c7 = st.columns(7)
+    c1, c2, c3, c4, c5 = st.columns(5)
     with c1:
-        source_hub = st.selectbox("🏭 Source Hub", ["All"] + sorted(df["source_hub"].unique()))
+        origin_warehouse = st.selectbox("🏭 Origin Warehouse", ["All"] + sorted(df["origin_warehouse"].unique()))
     with c2:
         destination_hub = st.selectbox("📍 Destination Hub", ["All"] + sorted(df["destination_hub"].unique()))
     with c3:
-        shipping_state = st.selectbox("🗺️ Shipping State", ["All"] + sorted(df["shipping_state"].unique()))
+        carrier = st.selectbox("🚚 Carrier", ["All"] + sorted(df["carrier"].unique()))
     with c4:
-        shipping_city = st.selectbox("🏙️ Shipping City", ["All"] + sorted(df["shipping_city"].unique()))
+        status = st.selectbox("🏷️ Status", ["All"] + sorted(df["status"].unique()))
     with c5:
-        shipping_zone = st.selectbox("🧭 Shipping Zone", ["All"] + sorted(df["shipping_zone"].unique()))
-    with c6:
-        fleet_type = st.selectbox("🚛 Fleet Type", ["All"] + sorted(df["fleet_type"].unique()))
-    with c7:
         min_date, max_date = df["order_date"].min().date(), df["order_date"].max().date()
         date_range = st.date_input("📅 Select Date", value=(min_date, max_date), min_value=min_date, max_value=max_date)
 
 filtered = df.copy()
-if source_hub != "All":
-    filtered = filtered[filtered["source_hub"] == source_hub]
+if origin_warehouse != "All":
+    filtered = filtered[filtered["origin_warehouse"] == origin_warehouse]
 if destination_hub != "All":
     filtered = filtered[filtered["destination_hub"] == destination_hub]
-if shipping_state != "All":
-    filtered = filtered[filtered["shipping_state"] == shipping_state]
-if shipping_city != "All":
-    filtered = filtered[filtered["shipping_city"] == shipping_city]
-if shipping_zone != "All":
-    filtered = filtered[filtered["shipping_zone"] == shipping_zone]
-if fleet_type != "All":
-    filtered = filtered[filtered["fleet_type"] == fleet_type]
+if carrier != "All":
+    filtered = filtered[filtered["carrier"] == carrier]
+if status != "All":
+    filtered = filtered[filtered["status"] == status]
 if isinstance(date_range, tuple) and len(date_range) == 2:
     start, end = date_range
     filtered = filtered[(filtered["order_date"].dt.date >= start) & (filtered["order_date"].dt.date <= end)]
@@ -82,11 +74,11 @@ with left:
 
 with right:
     with st.container(border=True):
-        st.subheader("Last Mile Processing Time by Destination Hub (Hour)")
+        st.subheader("Last Mile Processing Time by Destination Hub × Carrier (Hour)")
         pivot_hub = pd.pivot_table(
             filtered,
             index="destination_hub",
-            columns="shipping_zone",
+            columns="carrier",
             values="pending_to_delivered_hours",
             aggfunc="mean",
             margins=True,
@@ -95,14 +87,14 @@ with right:
         st.dataframe(pivot_hub, use_container_width=True, height=460)
 
 with st.container(border=True):
-    st.subheader("Last Mile Processing Time by Fleet Type (Hour)")
-    pivot_fleet = pd.pivot_table(
+    st.subheader("Last Mile Processing Time by Origin Warehouse × Destination Hub (Hour)")
+    pivot_warehouse = pd.pivot_table(
         filtered,
-        index="fleet_type",
-        columns="shipping_zone",
+        index="origin_warehouse",
+        columns="destination_hub",
         values="pending_to_delivered_hours",
         aggfunc="mean",
         margins=True,
         margins_name="Total",
     ).round(2)
-    st.dataframe(pivot_fleet, use_container_width=True)
+    st.dataframe(pivot_warehouse, use_container_width=True)

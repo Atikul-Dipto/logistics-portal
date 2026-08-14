@@ -2,7 +2,7 @@ import plotly.express as px
 import streamlit as st
 
 from utils.animated_metric import animated_kpi_row
-from utils.charts import style_fig
+from utils.charts import CHART_COLORS, style_fig
 from utils.data_loader import load_first_mile, load_last_mile
 from utils.theme import apply_theme, page_title
 
@@ -11,7 +11,7 @@ apply_theme()
 page_title(
     "🏆",
     "Hub Scorecard",
-    "First-mile and last-mile performance combined, hub by hub — the \"which hub needs attention\" view.",
+    "First-mile pickups and last-mile deliveries combined for the same 10-hub network — the \"which hub needs attention\" view.",
 )
 
 fm = load_first_mile()
@@ -90,7 +90,7 @@ with st.container(border=True):
         y="hours",
         color="leg",
         barmode="group",
-        color_discrete_map={"First Mile": "#22d3ee", "Last Mile": "#5b8def"},
+        color_discrete_map={"First Mile": CHART_COLORS[1], "Last Mile": CHART_COLORS[0]},
     )
     fig.update_layout(xaxis=dict(title=""), yaxis=dict(title="Avg hours"), legend=dict(title=""))
     st.plotly_chart(style_fig(fig), use_container_width=True)

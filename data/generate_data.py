@@ -39,34 +39,21 @@ N_SHIPMENTS = 4200
 START_DATE = pd.Timestamp("2025-09-01")
 END_DATE = pd.Timestamp("2026-08-13")
 
-# ---------- last-mile hub network ----------
-HUBS = [
-    "Probartak Hub", "3PL Hub", "Agrabad Hub", "Carry Bee Hub", "Badda Hub",
-    "Jatrabari Hub", "Tejgaon Hub", "Dhanmondi Hub", "Old Town Hub", "Tongi Hub",
-    "Uttara Hub", "Narayanganj Hub",
-]
+# ---------- unified last-mile / first-mile hub network ----------
+# One hub per shipping region, so hub names tie directly back to the
+# same `destination_region` values already used in the shipments
+# table above instead of an unrelated, made-up hub list.
+HUBS = [f"{region} Hub" for region in REGIONS]
 
-FLEET_TYPES = ["3PL", "Carrybee", "Ownfleet"]
+HUB_WEIGHTS = [0.28, 0.14, 0.08, 0.09, 0.08, 0.07, 0.07, 0.07, 0.06, 0.06]
 
-DIVISIONS = [
-    "Dhaka", "Chattogram", "Khulna", "Rajshahi", "Barisal", "Sylhet", "Rangpur", "Mymensingh",
-]
-
-DISTRICTS = [
-    "Bagerhat", "Bandarban", "Barguna", "Barisal", "Bhola", "Bogra", "Brahmanbaria", "Chandpur",
-    "Chapainawabganj", "Chattogram", "Chattogram Sadar", "Chuadanga", "Cox's Bazar", "Cumilla",
-    "Dhaka North", "Dhaka South", "Dinajpur", "Faridpur", "Feni", "Gaibandha", "Gazipur",
-    "Gopalganj", "Habiganj", "Jamalpur", "Jashore", "Jhalokati", "Jhenaidah", "Joypurhat",
-    "Khagrachhari", "Khulna", "Kishoreganj", "Kurigram", "Kushtia", "Lakshmipur", "Lalmonirhat",
-    "Madaripur", "Magura", "Manikganj", "Meherpur", "Moulvibazar", "Munshiganj", "Mymensingh",
-    "Naogaon", "Narail", "Narayanganj", "Narsingdi", "Natore", "Netrokona", "Nilphamari",
-    "Noakhali", "Pabna", "Panchagarh", "Patuakhali", "Pirojpur", "Rajbari", "Rajshahi",
-    "Rangamati", "Rangpur", "Satkhira", "Shariatpur", "Sherpur", "Sirajganj", "Sunamganj",
-    "Sylhet", "Tangail", "Thakurgaon",
-]
-
-N_LAST_MILE = 6000
-N_FIRST_MILE = 5000
+CARRIER_SPEED = {
+    "Pathao Courier": 0.9,
+    "RedX": 0.85,
+    "eCourier": 1.05,
+    "Steadfast Courier": 1.0,
+    "Sundarban Courier": 1.2,
+}
 
 
 def build_skus():
@@ -191,83 +178,69 @@ def build_inventory(skus: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def build_last_mile() -> pd.DataFrame:
-    n = N_LAST_MILE
-    order_dates = START_DATE + pd.to_timedelta(
-        RNG.integers(0, (END_DATE - START_DATE).days, size=n), unit="D"
-    )
+def build_last_mile(shipments: pd.DataFrame) -> pd.DataFrame:
+    """One last-mile leg per shipment. Reuses the shipment's own id,
+    date, origin warehouse, destination region, carrier, and status
+    so this table stays in lockstep with the shipments table instead
+    of drifting off as an unrelated synthetic population."""
+    n = len(shipments)
+    destination_region = shipments["destination_region"].to_numpy()
+    destination_hub = np.array([f"{r} Hub" for r in destination_region])
+    origin_warehouse = shipments["warehouse"].to_numpy()
+    carrier = shipments["carrier"].to_numpy()
+    is_local = shipments["origin_city"].to_numpy() == destination_region
 
-    hub_base = dict(zip(HUBS, RNG.uniform(38, 60, size=len(HUBS))))
-    hub_base["Probartak Hub"] = 118  # known slow outlier hub
-    hub_base["3PL Hub"] = 78
-
-    source_hub = RNG.choice(HUBS, size=n)
-    destination_hub = RNG.choice(HUBS, size=n)
-    fleet_type = RNG.choice(FLEET_TYPES, size=n, p=[0.35, 0.30, 0.35])
-    division = RNG.choice(DIVISIONS, size=n)
-    district = RNG.choice(DISTRICTS, size=n)
-
-    fleet_factor = np.select(
-        [fleet_type == "Ownfleet", fleet_type == "Carrybee", fleet_type == "3PL"],
-        [0.85, 1.0, 1.2],
-    )
-    district_factor = 1 + RNG.random(n) * 0.6  # remoter districts take longer
+    hub_base = dict(zip(HUBS, RNG.uniform(20, 34, size=len(HUBS))))
     base_hours = np.array([hub_base[h] for h in destination_hub])
-    noise = RNG.normal(0, 6, size=n)
-    hours = np.clip(base_hours * fleet_factor * district_factor * 0.6 + noise, 4, None)
+    carrier_factor = np.array([CARRIER_SPEED[c] for c in carrier])
+    remote_factor = np.where(is_local, 1.0, RNG.uniform(1.15, 1.6, size=n))
+    noise = RNG.normal(0, 4, size=n)
+    hours = np.clip(base_hours * carrier_factor * remote_factor + noise, 3, None)
 
     return pd.DataFrame(
         {
-            "order_date": order_dates,
-            "source_hub": source_hub,
+            "shipment_id": shipments["shipment_id"].to_numpy(),
+            "order_date": shipments["order_date"].to_numpy(),
+            "origin_warehouse": origin_warehouse,
             "destination_hub": destination_hub,
-            "shipping_state": division,
-            "shipping_city": district,
-            "shipping_zone": district,
-            "fleet_type": fleet_type,
+            "destination_region": destination_region,
+            "carrier": carrier,
+            "status": shipments["status"].to_numpy(),
             "pending_to_delivered_hours": np.round(hours, 2),
         }
     )
 
 
-def build_first_mile() -> pd.DataFrame:
-    """Seller pickup requests: request -> hub intake, before the
-    last-mile leg takes over."""
-    n = N_FIRST_MILE
-    request_dates = START_DATE + pd.to_timedelta(
-        RNG.integers(0, (END_DATE - START_DATE).days, size=n), unit="D"
-    )
-
-    hub_base = dict(zip(HUBS, RNG.uniform(2.0, 4.5, size=len(HUBS))))
-    hub_base["Probartak Hub"] = 7.8  # same slow-outlier hub as last-mile
-    hub_base["3PL Hub"] = 5.6
-
-    origin_hub = RNG.choice(HUBS, size=n)
-    seller_zone = RNG.choice(DISTRICTS, size=n)
-    fleet_type = RNG.choice(FLEET_TYPES, size=n, p=[0.35, 0.30, 0.35])
+def build_first_mile(shipments: pd.DataFrame) -> pd.DataFrame:
+    """One seller-pickup leg per shipment: request -> hub intake,
+    before the last-mile leg takes over. Draws on the same hub
+    network and carrier list as the last-mile leg above, and the
+    pickup outcome is correlated with the shipment's own status
+    (a cancelled order never had a pickup happen)."""
+    n = len(shipments)
+    origin_hub = RNG.choice(HUBS, size=n, p=HUB_WEIGHTS)
+    carrier = shipments["carrier"].to_numpy()
 
     status_roll = RNG.random(n)
     pickup_status = np.select(
-        [status_roll < 0.82, status_roll < 0.90, status_roll < 0.96],
-        ["Completed", "Failed", "Pending"],
-        default="Cancelled",
+        [shipments["status"].to_numpy() == "Cancelled", status_roll < 0.86, status_roll < 0.94],
+        ["Cancelled", "Completed", "Failed"],
+        default="Pending",
     )
 
-    fleet_factor = np.select(
-        [fleet_type == "Ownfleet", fleet_type == "Carrybee", fleet_type == "3PL"],
-        [0.8, 1.0, 1.25],
-    )
+    hub_base = dict(zip(HUBS, RNG.uniform(2.2, 4.2, size=len(HUBS))))
     base_hours = np.array([hub_base[h] for h in origin_hub])
-    noise = RNG.normal(0, 0.8, size=n)
-    duration = np.clip(base_hours * fleet_factor + noise, 0.5, None)
+    carrier_factor = np.array([CARRIER_SPEED[c] for c in carrier])
+    noise = RNG.normal(0, 0.7, size=n)
+    duration = np.clip(base_hours * carrier_factor + noise, 0.5, None)
     pickup_duration_hours = np.where(np.isin(pickup_status, ["Completed", "Failed"]), np.round(duration, 2), np.nan)
 
     return pd.DataFrame(
         {
-            "request_date": request_dates,
+            "shipment_id": shipments["shipment_id"].to_numpy(),
+            "request_date": shipments["order_date"].to_numpy(),
             "origin_hub": origin_hub,
-            "seller_zone": seller_zone,
-            "fleet_type": fleet_type,
+            "carrier": carrier,
             "pickup_status": pickup_status,
             "pickup_duration_hours": pickup_duration_hours,
         }
@@ -278,8 +251,8 @@ if __name__ == "__main__":
     skus = build_skus()
     shipments = build_shipments(skus)
     inventory = build_inventory(skus)
-    last_mile = build_last_mile()
-    first_mile = build_first_mile()
+    last_mile = build_last_mile(shipments)
+    first_mile = build_first_mile(shipments)
 
     warehouses_df = pd.DataFrame(WAREHOUSES)
 

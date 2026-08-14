@@ -2,7 +2,7 @@ import plotly.express as px
 import streamlit as st
 
 from utils.animated_metric import animated_kpi_row
-from utils.charts import style_fig
+from utils.charts import CHART_COLORS, style_fig
 from utils.data_loader import compact_parts, load_shipments
 from utils.live_feed import render_live_feed
 from utils.theme import apply_theme, page_title
@@ -99,7 +99,7 @@ with right:
             values="count",
             hole=0.55,
             template=PLOTLY_TEMPLATE,
-            color_discrete_sequence=["#5b8def", "#22d3ee", "#7c3aed", "#f59e0b", "#ef4444", "#64748b"],
+            color_discrete_sequence=CHART_COLORS,
         )
         st.plotly_chart(style_fig(fig2), use_container_width=True)
 
