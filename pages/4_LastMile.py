@@ -29,6 +29,15 @@ with st.container(border=True):
         min_date, max_date = df["order_date"].min().date(), df["order_date"].max().date()
         date_range = st.date_input("📅 Select Date", value=(min_date, max_date), min_value=min_date, max_value=max_date)
 
+    c6, c7, c8 = st.columns([1, 1.4, 1.6])
+    with c6:
+        seller_region = st.selectbox("🌍 Seller Region", ["All"] + sorted(df["seller_region"].unique()))
+    with c7:
+        weight_lo, weight_hi = float(df["weight_kg"].min()), float(df["weight_kg"].max())
+        weight_range = st.slider("⚖️ Weight (kg)", min_value=weight_lo, max_value=weight_hi, value=(weight_lo, weight_hi))
+    with c8:
+        search = st.text_input("🔍 Search shipment / order / package ID")
+
 filtered = df.copy()
 if origin_warehouse != "All":
     filtered = filtered[filtered["origin_warehouse"] == origin_warehouse]
@@ -41,6 +50,16 @@ if status != "All":
 if isinstance(date_range, tuple) and len(date_range) == 2:
     start, end = date_range
     filtered = filtered[(filtered["order_date"].dt.date >= start) & (filtered["order_date"].dt.date <= end)]
+if seller_region != "All":
+    filtered = filtered[filtered["seller_region"] == seller_region]
+filtered = filtered[(filtered["weight_kg"] >= weight_range[0]) & (filtered["weight_kg"] <= weight_range[1])]
+if search:
+    needle = search.strip().upper()
+    filtered = filtered[
+        filtered["shipment_id"].str.upper().str.contains(needle)
+        | filtered["order_code"].str.upper().str.contains(needle)
+        | filtered["package_code"].str.upper().str.contains(needle)
+    ]
 
 st.write("")
 

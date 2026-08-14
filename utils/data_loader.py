@@ -36,6 +36,11 @@ def load_warehouses() -> pd.DataFrame:
 
 
 @st.cache_data
+def load_sellers() -> pd.DataFrame:
+    return pd.read_csv(DATA_DIR / "sellers.csv")
+
+
+@st.cache_data
 def load_last_mile() -> pd.DataFrame:
     return pd.read_csv(DATA_DIR / "last_mile.csv", parse_dates=["order_date"])
 

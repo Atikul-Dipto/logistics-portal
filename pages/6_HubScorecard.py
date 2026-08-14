@@ -17,6 +17,22 @@ page_title(
 fm = load_first_mile()
 lm = load_last_mile()
 
+with st.container(border=True):
+    c1, c2 = st.columns(2)
+    with c1:
+        carrier_f = st.multiselect("🚚 Carrier", sorted(fm["carrier"].unique()))
+    with c2:
+        seller_region_f = st.multiselect("🌍 Seller Region", sorted(fm["seller_region"].unique()))
+
+if carrier_f:
+    fm = fm[fm["carrier"].isin(carrier_f)]
+    lm = lm[lm["carrier"].isin(carrier_f)]
+if seller_region_f:
+    fm = fm[fm["seller_region"].isin(seller_region_f)]
+    lm = lm[lm["seller_region"].isin(seller_region_f)]
+
+st.write("")
+
 fm_stats = (
     fm[fm["pickup_status"].isin(["Completed", "Failed"])]
     .groupby("origin_hub")["pickup_duration_hours"]

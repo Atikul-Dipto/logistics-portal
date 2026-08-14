@@ -55,6 +55,36 @@ CARRIER_SPEED = {
     "Sundarban Courier": 1.2,
 }
 
+# ---------- marketplace sellers ----------
+SHOP_PREFIXES = [
+    "Urban", "Metro", "Bengal", "Green", "Prime", "Royal", "Smart", "Nova", "Suncity", "Riverside",
+    "Golden", "Silver", "Classic", "Modern", "Trendy", "Elite", "Value", "Fresh", "Delta", "Horizon",
+]
+SHOP_SUFFIXES = [
+    "Mart", "Bazaar", "Store", "Collection", "Trading", "Fashion House", "Emporium", "Corner",
+    "Hub", "Depot", "Gallery", "Outlet", "Shop", "Retail", "Traders",
+]
+N_SELLERS = 60
+
+
+def _unique_shop_names(n: int) -> list[str]:
+    names = set()
+    while len(names) < n:
+        names.add(f"{RNG.choice(SHOP_PREFIXES)} {RNG.choice(SHOP_SUFFIXES)}")
+    return sorted(names)
+
+
+def build_sellers() -> pd.DataFrame:
+    shop_names = _unique_shop_names(N_SELLERS)
+    seller_region = RNG.choice(REGIONS, size=N_SELLERS, p=HUB_WEIGHTS)
+    return pd.DataFrame(
+        {
+            "seller_code": [f"SEL{1000 + i}" for i in range(N_SELLERS)],
+            "shop_name": shop_names,
+            "seller_region": seller_region,
+        }
+    )
+
 
 def build_skus():
     rows = []
@@ -74,7 +104,7 @@ def build_skus():
     return pd.DataFrame(rows)
 
 
-def build_shipments(skus: pd.DataFrame) -> pd.DataFrame:
+def build_shipments(skus: pd.DataFrame, sellers: pd.DataFrame) -> pd.DataFrame:
     n = N_SHIPMENTS
     order_dates = START_DATE + pd.to_timedelta(
         RNG.integers(0, (END_DATE - START_DATE).days, size=n), unit="D"
@@ -82,6 +112,11 @@ def build_shipments(skus: pd.DataFrame) -> pd.DataFrame:
     warehouse_idx = RNG.integers(0, len(WAREHOUSES), size=n)
     warehouses = [WAREHOUSES[i]["warehouse"] for i in warehouse_idx]
     origin_city = [WAREHOUSES[i]["city"] for i in warehouse_idx]
+
+    seller_idx = RNG.integers(0, len(sellers), size=n)
+    seller_code = sellers["seller_code"].to_numpy()[seller_idx]
+    shop_name = sellers["shop_name"].to_numpy()[seller_idx]
+    seller_region = sellers["seller_region"].to_numpy()[seller_idx]
 
     carrier = RNG.choice(CARRIERS, size=n, p=[0.28, 0.22, 0.2, 0.16, 0.14])
     destination_region = RNG.choice(REGIONS, size=n)
@@ -134,9 +169,14 @@ def build_shipments(skus: pd.DataFrame) -> pd.DataFrame:
     df = pd.DataFrame(
         {
             "shipment_id": [f"SHP{100000 + i}" for i in range(n)],
+            "order_code": [f"ORD{100000 + i}" for i in range(n)],
+            "package_code": [f"PKG{100000 + i}" for i in range(n)],
             "order_date": order_dates,
             "warehouse": warehouses,
             "origin_city": origin_city,
+            "seller_code": seller_code,
+            "shop_name": shop_name,
+            "seller_region": seller_region,
             "destination_region": destination_region,
             "carrier": carrier,
             "sku": sku_rows["sku"],
@@ -200,12 +240,18 @@ def build_last_mile(shipments: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(
         {
             "shipment_id": shipments["shipment_id"].to_numpy(),
+            "order_code": shipments["order_code"].to_numpy(),
+            "package_code": shipments["package_code"].to_numpy(),
             "order_date": shipments["order_date"].to_numpy(),
             "origin_warehouse": origin_warehouse,
             "destination_hub": destination_hub,
             "destination_region": destination_region,
             "carrier": carrier,
             "status": shipments["status"].to_numpy(),
+            "seller_code": shipments["seller_code"].to_numpy(),
+            "shop_name": shipments["shop_name"].to_numpy(),
+            "seller_region": shipments["seller_region"].to_numpy(),
+            "weight_kg": shipments["weight_kg"].to_numpy(),
             "pending_to_delivered_hours": np.round(hours, 2),
         }
     )
@@ -238,9 +284,15 @@ def build_first_mile(shipments: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(
         {
             "shipment_id": shipments["shipment_id"].to_numpy(),
+            "order_code": shipments["order_code"].to_numpy(),
+            "package_code": shipments["package_code"].to_numpy(),
             "request_date": shipments["order_date"].to_numpy(),
             "origin_hub": origin_hub,
             "carrier": carrier,
+            "seller_code": shipments["seller_code"].to_numpy(),
+            "shop_name": shipments["shop_name"].to_numpy(),
+            "seller_region": shipments["seller_region"].to_numpy(),
+            "weight_kg": shipments["weight_kg"].to_numpy(),
             "pickup_status": pickup_status,
             "pickup_duration_hours": pickup_duration_hours,
         }
@@ -249,7 +301,8 @@ def build_first_mile(shipments: pd.DataFrame) -> pd.DataFrame:
 
 if __name__ == "__main__":
     skus = build_skus()
-    shipments = build_shipments(skus)
+    sellers = build_sellers()
+    shipments = build_shipments(skus, sellers)
     inventory = build_inventory(skus)
     last_mile = build_last_mile(shipments)
     first_mile = build_first_mile(shipments)
@@ -257,6 +310,7 @@ if __name__ == "__main__":
     warehouses_df = pd.DataFrame(WAREHOUSES)
 
     skus.to_csv("data/skus.csv", index=False)
+    sellers.to_csv("data/sellers.csv", index=False)
     shipments.to_csv("data/shipments.csv", index=False)
     inventory.to_csv("data/inventory.csv", index=False)
     warehouses_df.to_csv("data/warehouses.csv", index=False)
@@ -266,5 +320,6 @@ if __name__ == "__main__":
     print(f"shipments: {len(shipments)} rows")
     print(f"inventory: {len(inventory)} rows")
     print(f"skus: {len(skus)} rows")
+    print(f"sellers: {len(sellers)} rows")
     print(f"last_mile: {len(last_mile)} rows")
     print(f"first_mile: {len(first_mile)} rows")

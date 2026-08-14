@@ -128,6 +128,16 @@ h1, h2, h3, .stApp [data-testid="stMetricValue"] {
     margin-bottom: 1.6rem;
 }
 
+/* ---------- centered top navigation ----------
+   st.navigation(position="top") gives the nav row flex-grow inside
+   the toolbar, so the row itself already spans nearly the full
+   width (icon | nav | actions) — the pills just sit left-aligned
+   inside that wide row. Centering them is a justify-content change
+   on the row, not a reposition of the row itself. */
+[data-testid="stToolbar"] .rc-overflow {
+    justify-content: center;
+}
+
 /* ---------- one surface color for every card/container ----------
    Bordered containers, KPI cards (see animated_metric.py), the
    sidebar, the dataframe grid (via config.toml secondaryBackgroundColor)
